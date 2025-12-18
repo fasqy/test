@@ -4,527 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard PROGRAM PENYALURAN PUMK - PT Pos Indonesia</title>
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-
-        .fade-up {
-            opacity: 0;
-            animation: fadeUp .6s ease-out forwards;
-        }
-
+        body { font-family: system-ui, sans-serif; }
+        .fade-up { opacity: 0; animation: fadeUp .6s ease-out forwards; }
         @keyframes fadeUp {
             from { transform: translateY(20px); opacity: 0; }
-            to   { transform: translateY(0);  opacity: 1; }
+            to { transform: translateY(0); opacity: 1; }
         }
-
-        .card-hover {
-            transition: .25s ease;
-        }
-
+        .card-hover { transition: .25s ease; }
         .card-hover:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 26px rgba(212,46,18,.25);
         }
-        
         .header-gradient {
             background: linear-gradient(to right, #D42E12, #000);
         }
-        
-        .transition-all-200 {
-            transition: all 0.2s ease-in-out;
-        }
-        
         .navbar-fixed {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background-color: white;
-        }
-        
-        @keyframes logoPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .logo-pulse {
-            animation: logoPulse 3s ease-in-out infinite;
+            background: white;
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
-    <nav x-data="{ open: false, dropdownOpen: false }" class="navbar-fixed bg-white shadow-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center flex-shrink-0">
-                    <a href="/dashboard" class="flex items-center no-underline">
-                        <div class="flex items-center">
-                            <div class="flex items-center">
-                                <div class="w-40 h-14 flex items-center">
-                                    <img 
-                                        src="posindo.png" 
-                                        alt="PT Pos Indonesia - Logistik Indonesia" 
-                                        class="h-10 object-contain"
-                                        onerror="handleImageError(this, 'PT Pos Indonesia')"
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
 
-                <div class="flex items-center">
-                    <div class="hidden md:flex items-center space-x-6">
-                        <a href="/dashboard" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-3 py-2 rounded-lg hover:bg-red-50">
-                            <i class="fas fa-tachometer-alt mr-2"></i>DASHBOARD
-                        </a>
-                        <a href="/mitra-binaan" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-3 py-2 rounded-lg hover:bg-red-50">
-                            <i class="fas fa-database mr-2"></i>DATA PUMK
-                        </a>
-                        <a href="/laporan" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-3 py-2 rounded-lg hover:bg-red-50">
-                            <i class="fas fa-file-alt mr-2"></i>LAPORAN
-                        </a>
-                        <div class="relative ml-4">
-                            <button @click="dropdownOpen = !dropdownOpen" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-all-200">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-gradient-to-r from-[#D42E12] to-[#0018a0] rounded-full flex items-center justify-center mr-2 overflow-hidden">
-                                        <img 
-                                            src="profile.jpg" 
-                                            alt="Admin User" 
-                                            class="w-full h-full object-cover"
-                                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\"text-white font-bold text-sm\">AU</span>';"
-                                        >
-                                    </div>
-                                    <div class="text-left">
-                                        <div class="font-semibold text-gray-800 text-sm">Admin User</div>
-                                        <div class="text-xs text-gray-500">User PUMK</div>
-                                    </div>
-                                </div>
-                                <svg class="ml-2 h-4 w-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                </svg>
-                            </button>
+<!-- NAVBAR -->
+<nav x-data="{ open:false }" class="navbar-fixed shadow border-b">
+    <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
 
-                            <div x-show="dropdownOpen" @click.away="dropdownOpen = false" 
-                                 x-transition:enter="transition ease-out duration-200"
-                                 x-transition:enter-start="opacity-0 scale-95"
-                                 x-transition:enter-end="opacity-100 scale-100"
-                                 x-transition:leave="transition ease-in duration-75"
-                                 x-transition:leave-start="opacity-100 scale-100"
-                                 x-transition:leave-end="opacity-0 scale-95"
-                                 class="dropdown-menu absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200" 
-                                 style="display: none;">
-                                <div class="px-4 py-3 bg-gradient-to-r from-red-50 to-blue-50 border-b border-gray-200">
-                                    <div class="font-medium text-gray-800 flex items-center">
-                                        <i class="fas fa-user-circle mr-2 text-[#D42E12]"></i>Admin User
-                                    </div>
-                                    <div class="text-sm text-gray-500 mt-1">admin@posindonesia.co.id</div>
-                                </div>
-                                
-                                <a href="/profile" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-all-200">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-user-edit mr-3 text-blue-500"></i>
-                                        Profile Settings
-                                    </div>
-                                </a>
-                                
-                                <a href="/change-password" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-all-200">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-key mr-3 text-green-500"></i>
-                                        Change Password
-                                    </div>
-                                </a>
+        <!-- LOGO -->
+        <a href="index.html" class="flex items-center">
+            <img src="posindo.png" class="h-10" alt="PT Pos Indonesia">
+        </a>
 
-                                <a href="#" onclick="event.preventDefault(); handleLogout();" class="block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-all-200 border-t border-gray-100 mt-1">
-                                    <div class="flex items-center">
-                                        <i class="fas fa-sign-out-alt mr-3"></i>
-                                        Log Out
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="md:hidden flex items-center ml-4">
-                        <button @click="open = !open" class="inline-flex items-center justify-center p-3 rounded-lg text-gray-700 hover:text-[#D42E12] hover:bg-red-50 focus:outline-none transition-all-200">
-                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                                <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <!-- MENU DESKTOP -->
+        <div class="hidden md:flex space-x-6">
+            <a href="index.html" class="font-semibold text-[#D42E12]">
+                <i class="fas fa-tachometer-alt mr-1"></i>Dashboard
+            </a>
+            <a href="data-nominatif-pumk.html" class="hover:text-[#D42E12]">
+                <i class="fas fa-database mr-1"></i>Data PUMK
+            </a>
+            <a href="laporan.html" class="hover:text-[#D42E12]">
+                <i class="fas fa-file-alt mr-1"></i>Laporan
+            </a>
         </div>
 
-        <div x-show="open" class="md:hidden bg-white border-t border-gray-200 shadow-lg" style="display: none;">
-            <div class="px-4 pt-4 pb-3 border-b border-gray-200 bg-gradient-to-r from-red-50 to-blue-50">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 mr-3 flex items-center justify-center">
-                        <img 
-                            src="posindo.png" 
-                            alt="POS" 
-                            class="h-8 object-contain"
-                            onerror="handleImageError(this, 'POS')"
-                        >
-                    </div>
-                    <div>
-                        <div class="text-gray-800 font-bold">PT Pos Indonesia</div>
-                        <div class="text-[#D42E12] text-sm font-semibold">Program Penyaluran PUMK</div>
-                    </div>
-                </div>
-            </div>
+        <!-- HAMBURGER -->
+        <button @click="open=!open" class="md:hidden">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+    </div>
 
-            <div class="pt-2 pb-3 space-y-1">
-                <a href="/dashboard" class="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-[#D42E12] transition-all-200 border-l-4 border-transparent hover:border-[#D42E12]">
-                    <div class="flex items-center">
-                        <i class="fas fa-tachometer-alt w-5 mr-3 text-gray-500"></i>
-                        Dashboard
-                    </div>
-                </a>
+    <!-- MENU MOBILE -->
+    <div x-show="open" class="md:hidden border-t bg-white">
+        <a href="index.html" class="block px-4 py-3 border-b">Dashboard</a>
+        <a href="data-nominatif-pumk.html" class="block px-4 py-3 border-b">Data PUMK</a>
+        <a href="laporan.html" class="block px-4 py-3">Laporan</a>
+    </div>
+</nav>
 
-                <a href="/mitra-binaan" class="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-[#D42E12] transition-all-200 border-l-4 border-transparent hover:border-[#D42E12]">
-                    <div class="flex items-center">
-                        <i class="fas fa-database w-5 mr-3 text-gray-500"></i>
-                        Data PUMK
-                    </div>
-                </a>
-                
-                <a href="/laporan" class="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-[#D42E12] transition-all-200 border-l-4 border-transparent hover:border-[#D42E12]">
-                    <div class="flex items-center">
-                        <i class="fas fa-file-alt w-5 mr-3 text-gray-500"></i>
-                        Laporan
-                    </div>
-                </a>
-            </div>
+<!-- CONTENT -->
+<div class="max-w-7xl mx-auto px-4 py-8">
 
-            <div class="pt-4 pb-3 border-t border-gray-200 bg-gray-50">
-                <div class="px-4 py-3">
-                    <div class="flex items-center mb-3">
-                        <div class="w-8 h-8 bg-gradient-to-r from-[#D42E12] to-[#0018a0] rounded-full flex items-center justify-center mr-3 overflow-hidden">
-                            <img 
-                                src="profile.jpg" 
-                                alt="Admin" 
-                                class="w-full h-full object-cover"
-                                onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\"text-white font-bold text-sm\">AU</span>';"
-                            >
-                        </div>
-                        <div>
-                            <div class="font-medium text-base text-gray-800">Admin User</div>
-                            <div class="font-medium text-sm text-gray-500">User PUMK</div>
-                        </div>
-                    </div>
-                    <div class="text-xs text-[#D42E12] font-semibold">
-                        <i class="fas fa-envelope mr-1"></i>admin@posindonesia.co.id
-                    </div>
-                </div>
+    <!-- HEADER -->
+    <div class="header-gradient text-white rounded-xl p-8 mb-8">
+        <h1 class="text-3xl font-bold">Dashboard Program Penyaluran PUMK</h1>
+        <p class="opacity-90 mt-1">Sistem Monitoring & Evaluasi</p>
+    </div>
 
-                <div class="mt-3 space-y-1">
-                    <a href="/profile" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-all-200">
-                        <div class="flex items-center">
-                            <i class="fas fa-user-edit w-5 mr-3 text-blue-500"></i>
-                            Profile Settings
-                        </div>
-                    </a>
-                    
-                    <a href="/change-password" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-all-200">
-                        <div class="flex items-center">
-                            <i class="fas fa-key w-5 mr-3 text-green-500"></i>
-                            Change Password
-                        </div>
-                    </a>
-
-                    <a href="#" onclick="event.preventDefault(); handleLogout();" class="block px-4 py-3 text-red-600 hover:bg-red-50 transition-all-200 border-t border-gray-200 mt-2">
-                        <div class="flex items-center">
-                            <i class="fas fa-sign-out-alt w-5 mr-3"></i>
-                            Log Out
-                        </div>
-                    </a>
-                </div>
-            </div>
+    <!-- SUMMARY -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-10">
+        <div class="bg-white p-5 rounded-xl shadow card-hover text-center">
+            <div class="font-bold text-[#D42E12]">Rp 43,2 M</div>
+            <div class="text-sm text-gray-500">Sumber Dana</div>
         </div>
-    </nav>
-
-    <div class="pt-8 bg-gray-100 min-h-screen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="header-gradient text-white py-8 shadow-lg rounded-xl mb-8 relative overflow-hidden">
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\" fill=\"%23ffffff\" fill-opacity=\"0.4\" fill-rule=\"evenodd\"/%3E%3C/svg%3E');"></div>
-                </div>
-                
-                <div class="relative z-10 px-6">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <div class="w-full">
-                            <div class="flex flex-col items-center md:items-start">
-                                <h2 class="font-bold text-2xl md:text-3xl text-center md:text-left mb-2">
-                                    DASHBOARD PROGRAM PENYALURAN PUMK
-                                </h2>
-                                <p class="text-sm opacity-90 text-center md:text-left">
-                                    Sistem Monitoring & Evaluasi Program PUMK
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-center md:justify-end">
-                            <div class="bg-white/20 backdrop-blur-sm text-white text-sm rounded-lg px-4 py-2 flex items-center border border-white/30">
-                                <i class="fas fa-calendar-alt mr-2"></i>
-                                Periode: 2025-11
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-8 fade-up">
-                <h3 class="font-semibold text-lg mb-4 text-center md:text-left">
-                    <i class="fas fa-chart-bar mr-2 text-[#D42E12]"></i>
-                    Laporan Akumulasi Penyaluran dan PUMK (2025-11)
-                </h3>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-10">
-                <!-- Sumber Dana POS -->
-                <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0s">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-100 to-blue-50 flex items-center justify-center border border-blue-200">
-                        <i class="fas fa-piggy-bank text-blue-600 text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-xs text-gray-500 text-center">Sumber Dana POS</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 43.200.000.000</div>
-                        <div class="text-xs text-gray-400 mt-1 text-center">Akumulasi 2025</div>
-                    </div>
-                </div>
-
-                <!-- Dana Disalurkan -->
-                <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.08s">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-100 to-green-50 flex items-center justify-center border border-green-200">
-                        <i class="fas fa-hand-holding-usd text-green-600 text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-xs text-gray-500 text-center">Dana Disalurkan</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 39.265.100.000</div>
-                        <div class="text-xs text-gray-400 mt-1 text-center">91% dari total</div>
-                    </div>
-                </div>
-
-                <!-- Dana Belum Salur -->
-                <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.16s">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-100 to-yellow-50 flex items-center justify-center border border-yellow-200">
-                        <i class="fas fa-clock text-yellow-600 text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-xs text-gray-500 text-center">Dana Belum Salur</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 3.934.900.000</div>
-                        <div class="text-xs text-gray-400 mt-1 text-center">9% dari total</div>
-                    </div>
-                </div>
-
-                <!-- Jumlah Mitra Binaan -->
-                <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.24s">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-100 to-purple-50 flex items-center justify-center border border-purple-200">
-                        <i class="fas fa-users text-purple-600 text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-xs text-gray-500 text-center">Jumlah Mitra Binaan</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">1.147</div>
-                        <div class="text-xs text-gray-400 mt-1 text-center">Aktif 2025</div>
-                    </div>
-                </div>
-
-                <!-- Jumlah Outstanding -->
-                <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.32s">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-red-100 to-red-50 flex items-center justify-center border border-red-200">
-                        <i class="fas fa-chart-line text-red-600 text-xl"></i>
-                    </div>
-                    <div class="flex-1">
-                        <div class="text-xs text-gray-500 text-center">Jumlah Outstanding</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 18.884.170.520</div>
-                        <div class="text-xs text-gray-400 mt-1 text-center">Portofolio aktif</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 fade-up">
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h4 class="font-semibold mb-4 flex items-center justify-center md:justify-start">
-                        <i class="fas fa-chart-pie mr-2 text-[#D42E12]"></i>
-                        Sektor Ekonomi Portofolio PUMK
-                    </h4>
-                    <div class="chart-container" style="position: relative; height:300px;">
-                        <canvas id="sektorChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-sm text-gray-500 text-center">
-                        Total: 100% dari seluruh portofolio
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h4 class="font-semibold mb-4 flex items-center justify-center md:justify-start">
-                        <i class="fas fa-chart-bar mr-2 text-[#D42E12]"></i>
-                        Kualitas Program PUMK
-                    </h4>
-                    <div class="chart-container" style="position: relative; height:300px;">
-                        <canvas id="kualitasChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-sm text-gray-500 text-center">
-                        Rasio kualitas berdasarkan pembayaran
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 pt-8 border-t border-gray-300 text-center text-sm text-gray-500 fade-up">
-                <div class="flex flex-col items-center mb-4">
-                    <div class="w-16 h-16 mb-4">
-                        <img 
-                            src="posindo.png" 
-                            alt="PT Pos Indonesia" 
-                            class="w-full h-full object-contain"
-                            onerror="handleImageError(this, 'PT Pos Indonesia')"
-                        >
-                    </div>
-                    <p class="font-semibold text-gray-700">Sistem Monitoring & Evaluasi Program PUMK</p>
-                    <p>PT Pos Indonesia &copy; 2025 - Semua Hak Dilindungi</p>
-                    <p class="mt-1">Data diperbarui terakhir: 15 November 2025</p>
-                </div>
-            </div>
+        <div class="bg-white p-5 rounded-xl shadow card-hover text-center">
+            <div class="font-bold text-[#D42E12]">Rp 39,2 M</div>
+            <div class="text-sm text-gray-500">Disalurkan</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow card-hover text-center">
+            <div class="font-bold text-[#D42E12]">Rp 3,9 M</div>
+            <div class="text-sm text-gray-500">Belum Salur</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow card-hover text-center">
+            <div class="font-bold text-[#D42E12]">1.147</div>
+            <div class="text-sm text-gray-500">Mitra Aktif</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow card-hover text-center">
+            <div class="font-bold text-[#D42E12]">Rp 18,8 M</div>
+            <div class="text-sm text-gray-500">Outstanding</div>
         </div>
     </div>
 
-    <script>
-        const sektorCtx = document.getElementById('sektorChart').getContext('2d');
-        const sektorChart = new Chart(sektorCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Industri', 'Perdagangan', 'Pertanian', 'Perkebunan', 'Peternakan', 'Perikanan', 'Jasa', 'Lainnya'],
-                datasets: [{
-                    data: [20.71, 54.87, 3.41, 5.11, 8.34, 1.23, 3.99, 2.32],
-                    backgroundColor: ['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#fb7185', '#22c55e', '#6366f1', '#9ca3af'],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            padding: 20,
-                            usePointStyle: true,
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.label}: ${context.parsed}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+    <!-- CHART -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-semibold mb-4">Sektor Ekonomi</h3>
+            <canvas id="sektorChart"></canvas>
+        </div>
 
-        const kualitasCtx = document.getElementById('kualitasChart').getContext('2d');
-        const kualitasChart = new Chart(kualitasCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Lancar', 'Kurang Lancar', 'Diragukan', 'Macet'],
-                datasets: [{
-                    data: [91.11, 3.48, 2.07, 3.34],
-                    backgroundColor: ['#16a34a', '#facc15', '#fb923c', '#dc2626'],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            padding: 20,
-                            usePointStyle: true,
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.label}: ${context.parsed}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
+        <div class="bg-white p-6 rounded-xl shadow">
+            <h3 class="font-semibold mb-4">Kualitas Pembayaran</h3>
+            <canvas id="kualitasChart"></canvas>
+        </div>
+    </div>
 
-        function handleImageError(imgElement, altText) {
-            console.warn(`Gambar ${imgElement.src} tidak ditemukan, menggunakan fallback...`);
-            
-            const parent = imgElement.parentElement;
-            const fallback = document.createElement('div');
-            fallback.className = 'w-full h-full flex items-center justify-center bg-gradient-to-r from-[#D42E12] to-[#0018a0] rounded-lg';
-            fallback.innerHTML = `
-                <div class="text-center text-white p-2">
-                    <div class="font-bold text-lg">${altText}</div>
-                    <div class="text-xs opacity-80">Logo PT Pos Indonesia</div>
-                </div>
-            `;
-            
-            parent.replaceChild(fallback, imgElement);
-        }
+    <!-- FOOTER -->
+    <div class="text-center text-sm text-gray-500 mt-12">
+        PT Pos Indonesia © 2025 – Sistem Monitoring PUMK
+    </div>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                const fadeElements = document.querySelectorAll('.fade-up');
-                fadeElements.forEach(el => {
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                        el.style.opacity = '1';
-                        el.style.transform = 'translateY(0)';
-                    }, 100);
-                });
-            }, 300);
+</div>
 
-            window.handleLogout = function() {
-                if (confirm('Apakah Anda yakin ingin logout?')) {
-                    alert('Logout berhasil! (Ini hanya simulasi)');
-                    window.location.href = '/login';
-                }
-            };
-            
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('nav a[href]');
-            
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('text-[#D42E12]', 'font-semibold', 'bg-red-50');
-                    link.classList.remove('text-gray-700');
-                }
-            });
-            
-            console.log('Dashboard PUMK PT Pos Indonesia loaded successfully');
-        });
-        
-        document.addEventListener('alpine:init', () => {
-            console.log('Alpine.js initialized');
-        });
-    </script>
+<!-- CHART SCRIPT -->
+<script>
+new Chart(document.getElementById('sektorChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Industri','Perdagangan','Pertanian','Jasa'],
+        datasets: [{
+            data: [20, 55, 10, 15],
+            backgroundColor: ['#2563eb','#10b981','#f59e0b','#6366f1']
+        }]
+    }
+});
+
+new Chart(document.getElementById('kualitasChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Lancar','Kurang Lancar','Macet'],
+        datasets: [{
+            data: [91, 6, 3],
+            backgroundColor: ['#16a34a','#facc15','#dc2626']
+        }]
+    }
+});
+</script>
+
 </body>
 </html>
