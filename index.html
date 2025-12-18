@@ -63,61 +63,76 @@
             background-color: white;
         }
         
-        /* Fallback jika Font Awesome tidak berjalan */
-        .icon-fallback {
-            font-weight: bold;
-            font-size: 18px;
+        /* Style untuk gambar */
+        .img-contain {
+            object-fit: contain;
         }
         
-        /* Memastikan menu mobile muncul dengan benar */
-        .mobile-menu {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            z-index: 999;
+        .img-cover {
+            object-fit: cover;
         }
         
-        /* Memastikan dropdown muncul di atas konten */
-        .dropdown-menu {
-            z-index: 1001;
+        /* Animasi untuk logo */
+        @keyframes logoPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .logo-pulse {
+            animation: logoPulse 3s ease-in-out infinite;
         }
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- ================= NAVIGATION MENU DENGAN LOGO ================= -->
+    <!-- ================= NAVIGATION MENU DENGAN GAMBAR LOKAL ================= -->
     <nav x-data="{ open: false, dropdownOpen: false }" class="navbar-fixed bg-white shadow-md border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- KIRI: LOGO PT POS INDONESIA -->
+                <!-- KIRI: LOGO PT POS INDONESIA DENGAN GAMBAR LOKAL -->
                 <div class="flex items-center flex-shrink-0">
                     <a href="/dashboard" class="flex items-center no-underline">
-                        <!-- Logo Lingkaran dengan POS Indonesia -->
-                        <div class="flex items-center relative">
-                            <!-- Logo lingkaran dengan bayangan -->
-                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg logo-glow">
-                                <!-- Logo POS Indonesia -->
-                                <div class="w-12 h-12 flex items-center justify-center relative">
-                                    <!-- Simulasi logo POS dengan warna merah dan putih -->
-                                    <div class="absolute w-12 h-12 bg-[#D42E12] rounded-full flex items-center justify-center">
-                                        <span class="text-white font-bold text-xl">POS</span>
+                        <!-- Logo dengan GAMBAR LOKAL -->
+                        <div class="flex items-center">
+                            <!-- Container untuk logo -->
+                            <div class="relative">
+                                <!-- CARA 1: Jika gambar posindo.png ada di folder yang sama dengan file HTML -->
+                                <div class="flex items-center">
+                                    <div class="w-48 h-16 flex items-center">
+                                        <img 
+                                            src="posindo.png" 
+                                            alt="PT Pos Indonesia - Logistik Indonesia" 
+                                            class="h-12 object-contain"
+                                            onerror="handleImageError(this, 'PT Pos Indonesia')"
+                                        >
                                     </div>
-                                    <!-- Efek cahaya -->
-                                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-white/30 rounded-full blur-sm"></div>
+                                    
+                                    <!-- Badge PUMK -->
+                                    <div class="ml-4">
+                                        <span class="text-black text-xs px-3 py-1.5 rounded-full font-bold bg-gradient-to-r from-red-50 to-gray-50 border border-red-100">
+                                            PROGRAM PENYALURAN PUMK
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <!-- Teks INDONESIA seperti gambar -->
-                            <div class="ml-3">
-                                <div class="flex flex-col">
-                                    <span class="text-[#000000] px-2 font-bold text-2xl tracking-tight leading-none">INDONESIA</span>
-                                    <span class="inline-block w-fit bg-[#0018a0] text-white text-xs px-2 py-0.5 rounded-md font-bold tracking-wide mt-1">Logistik Indonesia</span>
-                                </div>
-                                <!-- Badge PUMK -->
-                                <div class="mt-1">
-                                    <span class="text-black text-xs px-2 py-0.5 rounded font-bold bg-gray-100">
-                                        PROGRAM PENYALURAN PUMK
-                                    </span>
-                                </div>
+                                
+                                <!-- ALTERNATIF 2: Jika gambar ada di subfolder 'images' -->
+                                <!-- 
+                                <img 
+                                    src="images/posindo.png" 
+                                    alt="PT Pos Indonesia" 
+                                    class="h-14 object-contain"
+                                    onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjUwIiB2aWV3Qm94PSIwIDAgMjAwIDUwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjUwIiByeD0iNiIgZmlsbD0iI0Q0MkUxMiIvPgo8dGV4dCB4PSIxMDAiIHk9IjE4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCI+UE9TIElORE9ORVNJQTwvdGV4dD4KPHRleHQgeD0iMTAwIiB5PSIzNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCI+TG9naXN0aWsgSW5kb25lc2lhPC90ZXh0Pgo8L3N2Zz4K';"
+                                >
+                                -->
+                                
+                                <!-- ALTERNATIF 3: Jika gambar ada di folder 'assets' -->
+                                <!-- 
+                                <img 
+                                    src="assets/logo/posindo.png" 
+                                    alt="PT Pos Indonesia" 
+                                    class="h-14 object-contain"
+                                >
+                                -->
                             </div>
                         </div>
                     </a>
@@ -127,21 +142,32 @@
                 <div class="flex items-center">
                     <!-- Menu Desktop -->
                     <div class="hidden md:flex items-center space-x-6">
-                        <a href="/dashboard" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-2 py-1">
-                            DASHBOARD
+                        <a href="/dashboard" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-3 py-2 rounded-lg hover:bg-red-50">
+                            <i class="fas fa-tachometer-alt mr-2"></i>DASHBOARD
                         </a>
-                        <a href="/mitra-binaan" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-2 py-1">
-                            DATA PUMK
+                        <a href="/mitra-binaan" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-3 py-2 rounded-lg hover:bg-red-50">
+                            <i class="fas fa-database mr-2"></i>DATA PUMK
+                        </a>
+                        <a href="/laporan" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200 px-3 py-2 rounded-lg hover:bg-red-50">
+                            <i class="fas fa-file-alt mr-2"></i>LAPORAN
                         </a>
                         <div class="relative ml-4">
-                            <!-- Dropdown Trigger -->
-                            <button @click="dropdownOpen = !dropdownOpen" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-all-200">
+                            <!-- Dropdown Trigger dengan Foto Profil -->
+                            <button @click="dropdownOpen = !dropdownOpen" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-all-200">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-[#D42E12] rounded-full flex items-center justify-center mr-2">
-                                        <span class="text-white font-bold">A</span>
+                                    <!-- Foto profil pengguna -->
+                                    <div class="w-8 h-8 bg-gradient-to-r from-[#D42E12] to-[#0018a0] rounded-full flex items-center justify-center mr-2 overflow-hidden">
+                                        <!-- Gambar profil lokal -->
+                                        <img 
+                                            src="profile.jpg" 
+                                            alt="Admin User" 
+                                            class="w-full h-full object-cover"
+                                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\"text-white font-bold text-sm\">AU</span>';"
+                                        >
                                     </div>
                                     <div class="text-left">
                                         <div class="font-semibold text-gray-800 text-sm">Admin User</div>
+                                        <div class="text-xs text-gray-500">User PUMK</div>
                                     </div>
                                 </div>
                                 <svg class="ml-2 h-4 w-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
@@ -159,25 +185,30 @@
                                  x-transition:leave-end="opacity-0 scale-95"
                                  class="dropdown-menu absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200" 
                                  style="display: none;">
-                                <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                                    <div class="font-medium text-gray-800">Admin User</div>
-                                    <div class="text-sm text-gray-500">admin@posindonesia.co.id</div>
+                                <div class="px-4 py-3 bg-gradient-to-r from-red-50 to-blue-50 border-b border-gray-200">
+                                    <div class="font-medium text-gray-800 flex items-center">
+                                        <i class="fas fa-user-circle mr-2 text-[#D42E12]"></i>Admin User
+                                    </div>
+                                    <div class="text-sm text-gray-500 mt-1">admin@posindonesia.co.id</div>
                                 </div>
                                 
                                 <a href="/profile" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-all-200">
                                     <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                        </svg>
-                                        Profile
+                                        <i class="fas fa-user-edit mr-3 text-blue-500"></i>
+                                        Profile Settings
+                                    </div>
+                                </a>
+                                
+                                <a href="/change-password" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-all-200">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-key mr-3 text-green-500"></i>
+                                        Change Password
                                     </div>
                                 </a>
 
-                                <a href="#" onclick="event.preventDefault(); handleLogout();" class="block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-all-200">
+                                <a href="#" onclick="event.preventDefault(); handleLogout();" class="block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-all-200 border-t border-gray-100 mt-1">
                                     <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
-                                        </svg>
+                                        <i class="fas fa-sign-out-alt mr-3"></i>
                                         Log Out
                                     </div>
                                 </a>
@@ -187,7 +218,7 @@
 
                     <!-- HAMBURGER MOBILE -->
                     <div class="md:hidden flex items-center ml-4">
-                        <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-[#D42E12] hover:bg-gray-100 focus:outline-none transition-all-200">
+                        <button @click="open = !open" class="inline-flex items-center justify-center p-3 rounded-lg text-gray-700 hover:text-[#D42E12] hover:bg-red-50 focus:outline-none transition-all-200">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                                 <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -199,12 +230,17 @@
         </div>
 
         <!-- MOBILE MENU -->
-        <div x-show="open" class="mobile-menu md:hidden bg-white border-t border-gray-200 shadow-lg" style="display: none;">
+        <div x-show="open" class="md:hidden bg-white border-t border-gray-200 shadow-lg" style="display: none;">
             <!-- LOGO MOBILE -->
-            <div class="px-4 pt-4 pb-3 border-b border-gray-200">
+            <div class="px-4 pt-4 pb-3 border-b border-gray-200 bg-gradient-to-r from-red-50 to-blue-50">
                 <div class="flex items-center">
-                    <div class="w-10 h-10 bg-[#D42E12] rounded-full flex items-center justify-center mr-3">
-                        <span class="text-white font-bold">POS</span>
+                    <div class="w-12 h-12 mr-3 flex items-center justify-center">
+                        <img 
+                            src="posindo.png" 
+                            alt="POS" 
+                            class="h-10 object-contain"
+                            onerror="handleImageError(this, 'POS')"
+                        >
                     </div>
                     <div>
                         <div class="text-gray-800 font-bold">PT Pos Indonesia</div>
@@ -215,48 +251,68 @@
 
             <!-- MENU MOBILE -->
             <div class="pt-2 pb-3 space-y-1">
-                <a href="/dashboard" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-[#D42E12] transition-all-200">
+                <a href="/dashboard" class="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-[#D42E12] transition-all-200 border-l-4 border-transparent hover:border-[#D42E12]">
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 mr-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                        </svg>
+                        <i class="fas fa-tachometer-alt w-5 mr-3 text-gray-500"></i>
                         Dashboard
                     </div>
                 </a>
 
-                <a href="/mitra-binaan" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-[#D42E12] transition-all-200">
+                <a href="/mitra-binaan" class="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-[#D42E12] transition-all-200 border-l-4 border-transparent hover:border-[#D42E12]">
                     <div class="flex items-center">
-                        <svg class="w-5 h-5 mr-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                        </svg>
-                        Data Penyaluran PUMK
+                        <i class="fas fa-database w-5 mr-3 text-gray-500"></i>
+                        Data PUMK
+                    </div>
+                </a>
+                
+                <a href="/laporan" class="block px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-[#D42E12] transition-all-200 border-l-4 border-transparent hover:border-[#D42E12]">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-alt w-5 mr-3 text-gray-500"></i>
+                        Laporan
                     </div>
                 </a>
             </div>
 
             <!-- USER INFO MOBILE -->
-            <div class="pt-4 pb-3 border-t border-gray-200">
+            <div class="pt-4 pb-3 border-t border-gray-200 bg-gray-50">
                 <div class="px-4 py-3">
-                    <div class="font-medium text-base text-gray-800">Admin User</div>
-                    <div class="font-medium text-sm text-gray-500">admin@posindonesia.co.id</div>
-                    <div class="text-xs text-[#D42E12] mt-1 font-semibold">User PUMK</div>
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-[#D42E12] to-[#0018a0] rounded-full flex items-center justify-center mr-3 overflow-hidden">
+                            <img 
+                                src="profile.jpg" 
+                                alt="Admin" 
+                                class="w-full h-full object-cover"
+                                onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\"text-white font-bold text-sm\">AU</span>';"
+                            >
+                        </div>
+                        <div>
+                            <div class="font-medium text-base text-gray-800">Admin User</div>
+                            <div class="font-medium text-sm text-gray-500">User PUMK</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-[#D42E12] font-semibold">
+                        <i class="fas fa-envelope mr-1"></i>admin@posindonesia.co.id
+                    </div>
                 </div>
 
                 <div class="mt-3 space-y-1">
                     <a href="/profile" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-all-200">
                         <div class="flex items-center">
-                            <svg class="w-5 h-5 mr-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                            </svg>
-                            Profile
+                            <i class="fas fa-user-edit w-5 mr-3 text-blue-500"></i>
+                            Profile Settings
+                        </div>
+                    </a>
+                    
+                    <a href="/change-password" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-all-200">
+                        <div class="flex items-center">
+                            <i class="fas fa-key w-5 mr-3 text-green-500"></i>
+                            Change Password
                         </div>
                     </a>
 
-                    <a href="#" onclick="event.preventDefault(); handleLogout();" class="block px-4 py-3 text-red-600 hover:bg-red-50 transition-all-200">
+                    <a href="#" onclick="event.preventDefault(); handleLogout();" class="block px-4 py-3 text-red-600 hover:bg-red-50 transition-all-200 border-t border-gray-200 mt-2">
                         <div class="flex items-center">
-                            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
-                            </svg>
+                            <i class="fas fa-sign-out-alt w-5 mr-3"></i>
                             Log Out
                         </div>
                     </a>
@@ -268,26 +324,100 @@
     <!-- ================= DASHBOARD CONTENT ================= -->
     <div class="pt-8 bg-gray-100 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Dashboard -->
-            <div class="header-gradient text-white py-6 shadow-lg rounded-xl mb-8">
-                <div class="px-6 flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div>
-                        <h2 class="font-bold text-2xl">
-                            Dashboard PROGRAM PENYALURAN PUMK
-                        </h2>
-                        <p class="text-sm opacity-90 mt-1">
-                            Sistem Monitoring & Evaluasi Program PUMK
-                        </p>
-                    </div>
+            <!-- Header Dashboard dengan Logo -->
+            <div class="header-gradient text-white py-8 shadow-lg rounded-xl mb-8 relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10">
+                    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\"100\" height=\"100\" viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cpath d=\"M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\" fill=\"%23ffffff\" fill-opacity=\"0.4\" fill-rule=\"evenodd\"/%3E%3C/svg%3E');"></div>
+                </div>
+                
+                <div class="relative z-10 px-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div>
+                            <!-- Logo kecil di header -->
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-white rounded-lg p-2 mr-4 shadow-md">
+                                    <img 
+                                        src="posindo.png" 
+                                        alt="Logo" 
+                                        class="w-full h-full object-contain"
+                                        onerror="handleImageError(this, 'PUMK')"
+                                    >
+                                </div>
+                                <div>
+                                    <h2 class="font-bold text-2xl">
+                                        Dashboard PROGRAM PENYALURAN PUMK
+                                    </h2>
+                                    <p class="text-sm opacity-90 mt-1">
+                                        Sistem Monitoring & Evaluasi Program PUMK
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="bg-white text-gray-700 text-sm rounded-lg px-4 py-2 mt-4 md:mt-0">
-                        Periode: 2025-11
+                        <div class="bg-white/20 backdrop-blur-sm text-white text-sm rounded-lg px-4 py-2 mt-4 md:mt-0 flex items-center border border-white/30">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            Periode: 2025-11
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- ================= PETUNJUK PENGGUNAAN GAMBAR LOKAL ================= -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-8 fade-up">
+                <h3 class="font-semibold text-lg mb-4 text-[#D42E12]">
+                    <i class="fas fa-image mr-2"></i>Petunjuk Penggunaan Gambar Lokal
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-700 mb-2">Struktur Folder yang Direkomendasikan:</h4>
+                        <pre class="text-sm bg-white p-3 rounded border border-blue-200 overflow-x-auto">
+📁 project-folder/
+├── 📄 index.html          (File HTML ini)
+├── 🖼️ posindo.png         (Logo PT Pos Indonesia)
+├── 📁 images/             (Folder untuk gambar lain)
+│   ├── 🖼️ profile.jpg     (Foto profil)
+│   ├── 🖼️ dashboard-bg.jpg
+│   └── 🖼️ icons/
+└── 📁 assets/             (Folder untuk assets lain)</pre>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-700 mb-2">Cara Menyimpan Gambar:</h4>
+                        <ol class="list-decimal pl-5 text-gray-700 space-y-2">
+                            <li>Simpan file <code>posindo.png</code> di folder yang sama dengan file HTML</li>
+                            <li>Untuk gambar lain, buat folder <code>images/</code></li>
+                            <li>Update path gambar sesuai lokasi file:
+                                <ul class="list-disc pl-5 mt-1 text-sm">
+                                    <li><code>src="posindo.png"</code> → File di folder yang sama</li>
+                                    <li><code>src="images/profil.jpg"</code> → File di folder images</li>
+                                    <li><code>src="../assets/logo.png"</code> → File di folder induk</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <h4 class="font-semibold text-yellow-700 mb-2 flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Perhatian!
+                    </h4>
+                    <p class="text-yellow-700 text-sm">
+                        Pastikan file <code>posindo.png</code> berada di folder yang sama dengan file HTML ini.
+                        Jika gambar tidak muncul, periksa:
+                    </p>
+                    <ul class="list-disc pl-5 mt-2 text-yellow-700 text-sm space-y-1">
+                        <li>Nama file harus tepat (case sensitive): <code>posindo.png</code></li>
+                        <li>Format file harus PNG, JPG, atau JPEG</li>
+                        <li>File harus ada di lokasi yang benar</li>
+                        <li>Ukuran file tidak terlalu besar (max 2MB)</li>
+                    </ul>
                 </div>
             </div>
 
             <!-- ================= AKUMULASI ================= -->
             <h3 class="font-semibold text-lg mb-4 fade-up">
+                <i class="fas fa-chart-bar mr-2 text-[#D42E12]"></i>
                 Laporan Akumulasi Penyaluran dan PUMK (2025-11)
             </h3>
 
@@ -295,85 +425,87 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-10">
                 <!-- Sumber Dana POS -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0s">
-                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                        <i class="fas fa-money-bill-wave text-blue-600 text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-100 to-blue-50 flex items-center justify-center border border-blue-200">
+                        <!-- Icon lokal -->
+                        <img 
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
+                            alt="Dana" 
+                            class="w-6 h-6"
+                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-money-bill-wave text-blue-600 text-xl\"></i>';"
+                        >
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Sumber Dana POS</div>
                         <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 43.200.000.000</div>
+                        <div class="text-xs text-gray-400 mt-1">Akumulasi 2025</div>
                     </div>
                 </div>
 
                 <!-- Dana Disalurkan -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.08s">
-                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                        <i class="fas fa-hand-holding-usd text-green-600 text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-100 to-green-50 flex items-center justify-center border border-green-200">
+                        <img 
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" 
+                            alt="Salur" 
+                            class="w-6 h-6"
+                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-hand-holding-usd text-green-600 text-xl\"></i>';"
+                        >
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Dana Disalurkan</div>
                         <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 39.265.100.000</div>
+                        <div class="text-xs text-gray-400 mt-1">91% dari total</div>
                     </div>
                 </div>
 
                 <!-- Dana Belum Salur -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.16s">
-                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center">
-                        <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-100 to-yellow-50 flex items-center justify-center border border-yellow-200">
+                        <img 
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" 
+                            alt="Pending" 
+                            class="w-6 h-6"
+                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-clock text-yellow-600 text-xl\"></i>';"
+                        >
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Dana Belum Salur</div>
                         <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 3.934.900.000</div>
+                        <div class="text-xs text-gray-400 mt-1">9% dari total</div>
                     </div>
                 </div>
 
                 <!-- Jumlah Mitra Binaan -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.24s">
-                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-                        <i class="fas fa-users text-purple-600 text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-100 to-purple-50 flex items-center justify-center border border-purple-200">
+                        <img 
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135823.png" 
+                            alt="Mitra" 
+                            class="w-6 h-6"
+                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-users text-purple-600 text-xl\"></i>';"
+                        >
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Jumlah Mitra Binaan</div>
                         <div class="font-bold text-lg mt-1 text-[#D42E12]">1.147</div>
+                        <div class="text-xs text-gray-400 mt-1">Aktif 2025</div>
                     </div>
                 </div>
 
                 <!-- Jumlah Outstanding -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0.32s">
-                    <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-                        <i class="fas fa-chart-line text-red-600 text-xl"></i>
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-r from-red-100 to-red-50 flex items-center justify-center border border-red-200">
+                        <img 
+                            src="https://cdn-icons-png.flaticon.com/512/3135/3135753.png" 
+                            alt="Outstanding" 
+                            class="w-6 h-6"
+                            onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<i class=\"fas fa-chart-line text-red-600 text-xl\"></i>';"
+                        >
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Jumlah Outstanding</div>
                         <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 18.884.170.520</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= TAHUN BERJALAN ================= -->
-            <h3 class="font-semibold text-lg mb-4 fade-up">
-                Laporan Penyaluran Dana PUMK Tahun Berjalan (2025)
-            </h3>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                <div class="bg-white rounded-xl shadow-md p-6 fade-up">
-                    <div class="text-sm text-gray-500">Jumlah Penyaluran</div>
-                    <div class="text-2xl font-bold mt-2 text-[#D42E12]">Rp 4.738.000.000</div>
-                    <div class="mt-4 pt-4 border-t border-gray-100">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-arrow-up text-green-500 mr-2"></i>
-                            <span>+12.5% dari periode sebelumnya</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-md p-6 fade-up">
-                    <div class="text-sm text-gray-500">Jumlah Mitra Binaan</div>
-                    <div class="text-2xl font-bold mt-2 text-[#D42E12]">130</div>
-                    <div class="mt-4 pt-4 border-t border-gray-100">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-user-plus text-blue-500 mr-2"></i>
-                            <span>+18 mitra baru tahun ini</span>
-                        </div>
+                        <div class="text-xs text-gray-400 mt-1">Portofolio aktif</div>
                     </div>
                 </div>
             </div>
@@ -406,62 +538,22 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- ================= TABEL DATA ================= -->
-            <div class="mt-12 fade-up">
-                <h3 class="font-semibold text-lg mb-4">Rincian Penyaluran per Sektor</h3>
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sektor</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah Mitra</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dana Disalurkan</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Persentase</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Perdagangan</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">629</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">Rp 21.540.000.000</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">54.87%</td>
-                                </tr>
-                                <tr class="bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Industri</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">238</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">Rp 8.140.000.000</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">20.71%</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Peternakan</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">96</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">Rp 3.270.000.000</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">8.34%</td>
-                                </tr>
-                                <tr class="bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Perkebunan</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">59</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">Rp 2.010.000.000</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">5.11%</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Pertanian</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">39</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">Rp 1.340.000.000</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">3.41%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
             <!-- ================= FOOTER ================= -->
             <div class="mt-12 pt-8 border-t border-gray-300 text-center text-sm text-gray-500 fade-up">
-                <p>Sistem Monitoring & Evaluasi Program PUMK - PT Pos Indonesia &copy; 2025</p>
-                <p class="mt-1">Data diperbarui terakhir: 15 November 2025</p>
+                <div class="flex flex-col items-center mb-4">
+                    <div class="w-20 h-20 mb-4">
+                        <img 
+                            src="posindo.png" 
+                            alt="PT Pos Indonesia" 
+                            class="w-full h-full object-contain"
+                            onerror="handleImageError(this, 'PT Pos Indonesia')"
+                        >
+                    </div>
+                    <p class="font-semibold text-gray-700">Sistem Monitoring & Evaluasi Program PUMK</p>
+                    <p>PT Pos Indonesia &copy; 2025 - Semua Hak Dilindungi</p>
+                    <p class="mt-1">Data diperbarui terakhir: 15 November 2025</p>
+                </div>
             </div>
         </div>
     </div>
@@ -537,6 +629,25 @@
             }
         });
 
+        // Fungsi untuk menangani error gambar
+        function handleImageError(imgElement, altText) {
+            console.warn(`Gambar ${imgElement.src} tidak ditemukan, menggunakan fallback...`);
+            
+            // Buat elemen fallback
+            const parent = imgElement.parentElement;
+            const fallback = document.createElement('div');
+            fallback.className = 'w-full h-full flex items-center justify-center bg-gradient-to-r from-[#D42E12] to-[#0018a0] rounded-lg';
+            fallback.innerHTML = `
+                <div class="text-center text-white p-2">
+                    <div class="font-bold text-lg">${altText}</div>
+                    <div class="text-xs opacity-80">Logo PT Pos Indonesia</div>
+                </div>
+            `;
+            
+            // Ganti gambar dengan fallback
+            parent.replaceChild(fallback, imgElement);
+        }
+
         // Animasi fade-up untuk elemen
         document.addEventListener('DOMContentLoaded', function() {
             // Tunggu sedikit untuk memastikan DOM sudah siap
@@ -553,54 +664,6 @@
                     }, 100);
                 });
             }, 300);
-            
-            // Cek apakah Font Awesome berhasil dimuat
-            const styleSheets = document.styleSheets;
-            let fontAwesomeLoaded = false;
-            
-            for (let i = 0; i < styleSheets.length; i++) {
-                if (styleSheets[i].href && styleSheets[i].href.includes('font-awesome')) {
-                    fontAwesomeLoaded = true;
-                    break;
-                }
-            }
-            
-            // Jika Font Awesome tidak terdeteksi, tambahkan fallback
-            if (!fontAwesomeLoaded) {
-                console.warn('Font Awesome tidak terdeteksi, menggunakan fallback...');
-                
-                // Ganti semua elemen <i> dengan kelas 'fas' dengan teks fallback
-                const iconElements = document.querySelectorAll('i.fas');
-                iconElements.forEach(icon => {
-                    const parent = icon.parentElement;
-                    const iconName = Array.from(icon.classList)
-                        .find(cls => cls.startsWith('fa-'))
-                        ?.replace('fa-', '');
-                    
-                    if (iconName) {
-                        // Buat elemen fallback
-                        const fallback = document.createElement('span');
-                        fallback.className = 'icon-fallback';
-                        
-                        // Tentukan teks berdasarkan nama ikon
-                        const iconMap = {
-                            'money-bill-wave': '💵',
-                            'hand-holding-usd': '💰',
-                            'clock': '⏰',
-                            'users': '👥',
-                            'chart-line': '📈',
-                            'arrow-up': '↑',
-                            'user-plus': '👤+',
-                            'chart-pie': '📊',
-                            'chart-bar': '📉'
-                        };
-                        
-                        fallback.textContent = iconMap[iconName] || '●';
-                        parent.appendChild(fallback);
-                        icon.style.display = 'none';
-                    }
-                });
-            }
 
             // Fungsi untuk logout
             window.handleLogout = function() {
@@ -617,19 +680,13 @@
             
             navLinks.forEach(link => {
                 if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('text-[#D42E12]', 'font-semibold');
+                    link.classList.add('text-[#D42E12]', 'font-semibold', 'bg-red-50');
                     link.classList.remove('text-gray-700');
                 }
             });
             
             // Debug: Pastikan navbar terlihat
-            console.log('Navbar loaded successfully');
-            const navbar = document.querySelector('nav');
-            if (navbar) {
-                navbar.style.display = 'block';
-                navbar.style.visibility = 'visible';
-                navbar.style.opacity = '1';
-            }
+            console.log('Dashboard PUMK PT Pos Indonesia loaded successfully');
         });
         
         // Pastikan Alpine.js diinisialisasi dengan benar
