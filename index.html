@@ -266,32 +266,33 @@
                 
                 <div class="relative z-10 px-6">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-                        <div>
-                            <div class="flex items-center mb-4">
-                                </div>
-                                <div>
-                                    <h2 class="font-bold text-2xl">
-                                        DASHBOARD PROGRAM PENYALURAN PUMK
-                                    </h2>
-                                    <p class="text-sm opacity-90 mt-1">
-                                        Sistem Monitoring & Evaluasi Program PUMK
-                                    </p>
-                                </div>
+                        <div class="w-full">
+                            <div class="flex flex-col items-center md:items-start">
+                                <h2 class="font-bold text-2xl md:text-3xl text-center md:text-left mb-2">
+                                    DASHBOARD PROGRAM PENYALURAN PUMK
+                                </h2>
+                                <p class="text-sm opacity-90 text-center md:text-left">
+                                    Sistem Monitoring & Evaluasi Program PUMK
+                                </p>
                             </div>
                         </div>
 
-                        <div class="bg-white/20 backdrop-blur-sm text-white text-sm rounded-lg px-4 py-2 mt-4 md:mt-0 flex items-center border border-white/30">
-                            <i class="fas fa-calendar-alt mr-2"></i>
-                            Periode: 2025-11
+                        <div class="mt-4 md:mt-0 w-full md:w-auto flex justify-center md:justify-end">
+                            <div class="bg-white/20 backdrop-blur-sm text-white text-sm rounded-lg px-4 py-2 flex items-center border border-white/30">
+                                <i class="fas fa-calendar-alt mr-2"></i>
+                                Periode: 2025-11
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <h3 class="font-semibold text-lg mb-4 fade-up">
-                <i class="fas fa-chart-bar mr-2 text-[#D42E12]"></i>
-                Laporan Akumulasi Penyaluran dan PUMK (2025-11)
-            </h3>
+            <div class="mb-8 fade-up">
+                <h3 class="font-semibold text-lg mb-4 text-center md:text-left">
+                    <i class="fas fa-chart-bar mr-2 text-[#D42E12]"></i>
+                    Laporan Akumulasi Penyaluran dan PUMK (2025-11)
+                </h3>
+            </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-10">
                 <!-- Sumber Dana POS -->
@@ -299,10 +300,10 @@
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-100 to-blue-50 flex items-center justify-center border border-blue-200">
                         <i class="fas fa-piggy-bank text-blue-600 text-xl"></i>
                     </div>
-                    <div>
-                        <div class="text-xs text-gray-500">Sumber Dana POS</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 43.200.000.000</div>
-                        <div class="text-xs text-gray-400 mt-1">Akumulasi 2025</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500 text-center">Sumber Dana POS</div>
+                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 43.200.000.000</div>
+                        <div class="text-xs text-gray-400 mt-1 text-center">Akumulasi 2025</div>
                     </div>
                 </div>
 
@@ -311,10 +312,10 @@
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-green-100 to-green-50 flex items-center justify-center border border-green-200">
                         <i class="fas fa-hand-holding-usd text-green-600 text-xl"></i>
                     </div>
-                    <div>
-                        <div class="text-xs text-gray-500">Dana Disalurkan</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 39.265.100.000</div>
-                        <div class="text-xs text-gray-400 mt-1">91% dari total</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500 text-center">Dana Disalurkan</div>
+                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 39.265.100.000</div>
+                        <div class="text-xs text-gray-400 mt-1 text-center">91% dari total</div>
                     </div>
                 </div>
 
@@ -323,10 +324,10 @@
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-100 to-yellow-50 flex items-center justify-center border border-yellow-200">
                         <i class="fas fa-clock text-yellow-600 text-xl"></i>
                     </div>
-                    <div>
-                        <div class="text-xs text-gray-500">Dana Belum Salur</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 3.934.900.000</div>
-                        <div class="text-xs text-gray-400 mt-1">9% dari total</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500 text-center">Dana Belum Salur</div>
+                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 3.934.900.000</div>
+                        <div class="text-xs text-gray-400 mt-1 text-center">9% dari total</div>
                     </div>
                 </div>
 
@@ -335,10 +336,10 @@
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-purple-100 to-purple-50 flex items-center justify-center border border-purple-200">
                         <i class="fas fa-users text-purple-600 text-xl"></i>
                     </div>
-                    <div>
-                        <div class="text-xs text-gray-500">Jumlah Mitra Binaan</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12]">1.147</div>
-                        <div class="text-xs text-gray-400 mt-1">Aktif 2025</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500 text-center">Jumlah Mitra Binaan</div>
+                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">1.147</div>
+                        <div class="text-xs text-gray-400 mt-1 text-center">Aktif 2025</div>
                     </div>
                 </div>
 
@@ -347,17 +348,17 @@
                     <div class="w-12 h-12 rounded-full bg-gradient-to-r from-red-100 to-red-50 flex items-center justify-center border border-red-200">
                         <i class="fas fa-chart-line text-red-600 text-xl"></i>
                     </div>
-                    <div>
-                        <div class="text-xs text-gray-500">Jumlah Outstanding</div>
-                        <div class="font-bold text-lg mt-1 text-[#D42E12]">Rp 18.884.170.520</div>
-                        <div class="text-xs text-gray-400 mt-1">Portofolio aktif</div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-500 text-center">Jumlah Outstanding</div>
+                        <div class="font-bold text-lg mt-1 text-[#D42E12] text-center">Rp 18.884.170.520</div>
+                        <div class="text-xs text-gray-400 mt-1 text-center">Portofolio aktif</div>
                     </div>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 fade-up">
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h4 class="font-semibold mb-4 flex items-center">
+                    <h4 class="font-semibold mb-4 flex items-center justify-center md:justify-start">
                         <i class="fas fa-chart-pie mr-2 text-[#D42E12]"></i>
                         Sektor Ekonomi Portofolio PUMK
                     </h4>
@@ -370,7 +371,7 @@
                 </div>
 
                 <div class="bg-white rounded-xl shadow-md p-6">
-                    <h4 class="font-semibold mb-4 flex items-center">
+                    <h4 class="font-semibold mb-4 flex items-center justify-center md:justify-start">
                         <i class="fas fa-chart-bar mr-2 text-[#D42E12]"></i>
                         Kualitas Program PUMK
                     </h4>
@@ -527,6 +528,3 @@
     </script>
 </body>
 </html>
-
-
-
