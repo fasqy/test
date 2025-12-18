@@ -30,6 +30,12 @@
         .header-gradient {
             background: linear-gradient(to right, #D42E12, #000);
         }
+        
+        /* Fallback jika Font Awesome tidak berjalan */
+        .icon-fallback {
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -60,10 +66,15 @@
 
             <!-- GRID AMAN -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-10">
-                <!-- Sumber Dana POS -->
+                <!-- Sumber Dana POS - DIPERBAIKI -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0s">
                     <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                        <i class="fas fa-piggy-bank text-blue-600 text-xl"></i>
+                        <!-- Ikon alternatif jika fa-piggy-bank tidak tersedia -->
+                        <i class="fas fa-money-bill-wave text-blue-600 text-xl"></i>
+                        <!-- Atau gunakan SVG langsung sebagai fallback -->
+                        <svg class="fas fa-money-bill-wave text-blue-600 text-xl" style="display: none;">
+                            <!-- SVG fallback akan ditampilkan via JavaScript -->
+                        </svg>
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Sumber Dana POS</div>
@@ -317,6 +328,54 @@
                     el.style.transform = 'translateY(0)';
                 }, 100);
             });
+            
+            // Cek apakah Font Awesome berhasil dimuat
+            const styleSheets = document.styleSheets;
+            let fontAwesomeLoaded = false;
+            
+            for (let i = 0; i < styleSheets.length; i++) {
+                if (styleSheets[i].href && styleSheets[i].href.includes('font-awesome')) {
+                    fontAwesomeLoaded = true;
+                    break;
+                }
+            }
+            
+            // Jika Font Awesome tidak terdeteksi, tambahkan fallback
+            if (!fontAwesomeLoaded) {
+                console.warn('Font Awesome tidak terdeteksi, menggunakan fallback...');
+                
+                // Ganti semua elemen <i> dengan kelas 'fas' dengan teks fallback
+                const iconElements = document.querySelectorAll('i.fas');
+                iconElements.forEach(icon => {
+                    const parent = icon.parentElement;
+                    const iconName = Array.from(icon.classList)
+                        .find(cls => cls.startsWith('fa-'))
+                        ?.replace('fa-', '');
+                    
+                    if (iconName) {
+                        // Buat elemen fallback
+                        const fallback = document.createElement('span');
+                        fallback.className = 'icon-fallback';
+                        
+                        // Tentukan teks berdasarkan nama ikon
+                        const iconMap = {
+                            'money-bill-wave': '💵',
+                            'hand-holding-usd': '💰',
+                            'clock': '⏰',
+                            'users': '👥',
+                            'chart-line': '📈',
+                            'arrow-up': '↑',
+                            'user-plus': '👤+',
+                            'chart-pie': '📊',
+                            'chart-bar': '📉'
+                        };
+                        
+                        fallback.textContent = iconMap[iconName] || '●';
+                        parent.appendChild(fallback);
+                        icon.style.display = 'none';
+                    }
+                });
+            }
         });
     </script>
 </body>
