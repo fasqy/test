@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard PROGRAM PENYALURAN PUMK</title>
+    <title>Dashboard PROGRAM PENYALURAN PUMK - PT Pos Indonesia</title>
+    <!-- Alpine.js untuk interaktivitas menu -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js untuk grafik -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome untuk ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .fade-up {
@@ -31,6 +36,14 @@
             background: linear-gradient(to right, #D42E12, #000);
         }
         
+        .logo-glow {
+            filter: drop-shadow(0 0 8px rgba(212, 46, 18, 0.3));
+        }
+        
+        .transition-all-200 {
+            transition: all 0.2s ease-in-out;
+        }
+        
         /* Fallback jika Font Awesome tidak berjalan */
         .icon-fallback {
             font-weight: bold;
@@ -38,27 +51,207 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <!-- ================= HEADER ================= -->
-    <header class="header-gradient text-white py-6 shadow-lg">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div>
-                <h2 class="font-bold text-2xl">
-                    Dashboard PROGRAM PENYALURAN PUMK
-                </h2>
-                <p class="text-sm opacity-90 mt-1">
-                    Sistem Monitoring & Evaluasi Program PUMK
-                </p>
-            </div>
+<body class="bg-gray-50">
+    <!-- ================= NAVIGATION MENU DENGAN LOGO ================= -->
+    <nav x-data="{ open: false, dropdownOpen: false }" class="bg-white shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <!-- KIRI: LOGO PT POS INDONESIA -->
+                <div class="flex items-center">
+                    <a href="/dashboard" class="flex items-center">
+                        <!-- Logo Lingkaran dengan POS Indonesia -->
+                        <div class="flex items-center relative">
+                            <!-- Logo lingkaran dengan bayangan -->
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg logo-glow">
+                                <!-- Logo POS Indonesia (menggunakan placeholder/logo sederhana) -->
+                                <div class="w-12 h-12 flex items-center justify-center relative">
+                                    <!-- Simulasi logo POS dengan warna merah dan putih -->
+                                    <div class="absolute w-12 h-12 bg-[#D42E12] rounded-full flex items-center justify-center">
+                                        <span class="text-white font-bold text-xl">POS</span>
+                                    </div>
+                                    <!-- Efek cahaya -->
+                                    <div class="absolute -top-1 -right-1 w-4 h-4 bg-white/30 rounded-full blur-sm"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Teks INDONESIA seperti gambar -->
+                            <div class="ml-3">
+                                <div class="flex flex-col">
+                                    <span class="text-[#000000] px-2 font-bold text-2xl tracking-tight">INDONESIA</span>
+                                    <span class="inline-block w-fit bg-[#0018a0] text-white text-xs px-2 py-0.5 rounded-md font-bold tracking-wide">Logistik Indonesia</span>
+                                </div>
+                                <!-- Badge PUMK -->
+                                <div class="mt-0.5">
+                                    <span class="text-black text-xs px-2 py-1 rounded font-bold">
+                                        PROGRAM PENYALURAN PUMK
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="bg-white text-gray-700 text-sm rounded-lg px-4 py-2 mt-4 md:mt-0">
-                Periode: 2025-11
+                <!-- KANAN: User Menu -->
+                <div class="flex items-center ms-auto">
+                    <!-- Menu Desktop -->
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="/dashboard" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200">
+                            DASHBOARD
+                        </a>
+                        <a href="/mitra-binaan" class="text-gray-700 hover:text-[#D42E12] font-medium transition-all-200">
+                            DATA PUMK
+                        </a>
+                        <div class="relative">
+                            <!-- Dropdown Trigger -->
+                            <button @click="dropdownOpen = !dropdownOpen" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-all-200">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-[#D42E12] rounded-full flex items-center justify-center mr-2">
+                                        <span class="text-white font-bold">A</span>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="font-semibold text-gray-800">Admin User</div>
+                                    </div>
+                                </div>
+                                <svg class="ml-2 h-4 w-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Content -->
+                            <div x-show="dropdownOpen" @click.away="dropdownOpen = false" class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                                <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+                                    <div class="font-medium text-gray-800">Admin User</div>
+                                    <div class="text-sm text-gray-500">admin@posindonesia.co.id</div>
+                                </div>
+                                
+                                <a href="/profile" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-all-200">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Profile
+                                    </div>
+                                </a>
+
+                                <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-all-200">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Log Out
+                                    </div>
+                                </a>
+                                <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                                    <input type="hidden" name="_token" value="simulated-csrf-token">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HAMBURGER MOBILE -->
+                    <div class="-me-2 flex items-center md:hidden">
+                        <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-[#D42E12] hover:bg-gray-100 focus:outline-none transition-all-200">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </header>
 
+        <!-- MOBILE MENU -->
+        <div x-show="open" class="md:hidden bg-white border-t border-gray-200 shadow-lg" style="display: none;">
+            <!-- LOGO MOBILE -->
+            <div class="px-4 pt-4 pb-3 border-b border-gray-200">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-[#D42E12] rounded-full flex items-center justify-center mr-3">
+                        <span class="text-white font-bold">POS</span>
+                    </div>
+                    <div>
+                        <div class="text-gray-800 font-bold">PT Pos Indonesia</div>
+                        <div class="text-[#D42E12] text-sm font-semibold">Program Penyaluran PUMK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU MOBILE -->
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="/dashboard" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-[#D42E12] transition-all-200">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                        </svg>
+                        Dashboard
+                    </div>
+                </a>
+
+                <a href="/mitra-binaan" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-[#D42E12] transition-all-200">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                        Data Penyaluran PUMK
+                    </div>
+                </a>
+            </div>
+
+            <!-- USER INFO MOBILE -->
+            <div class="pt-4 pb-1 border-t border-gray-200">
+                <div class="px-4 py-3">
+                    <div class="font-medium text-base text-gray-800">Admin User</div>
+                    <div class="font-medium text-sm text-gray-500">admin@posindonesia.co.id</div>
+                    <div class="text-xs text-[#D42E12] mt-1 font-semibold">User PUMK</div>
+                </div>
+
+                <div class="mt-3 space-y-1">
+                    <a href="/profile" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-all-200">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Profile
+                        </div>
+                    </a>
+
+                    <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();" class="block px-4 py-3 text-red-600 hover:bg-red-50 transition-all-200">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                            </svg>
+                            Log Out
+                        </div>
+                    </a>
+                    <form id="logout-form-mobile" action="/logout" method="POST" style="display: none;">
+                        <input type="hidden" name="_token" value="simulated-csrf-token">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= DASHBOARD CONTENT ================= -->
     <div class="py-8 bg-gray-100 min-h-screen">
         <div class="max-w-7xl mx-auto px-6">
+            <!-- Header Dashboard -->
+            <div class="header-gradient text-white py-6 shadow-lg rounded-xl mb-8">
+                <div class="px-6 flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <h2 class="font-bold text-2xl">
+                            Dashboard PROGRAM PENYALURAN PUMK
+                        </h2>
+                        <p class="text-sm opacity-90 mt-1">
+                            Sistem Monitoring & Evaluasi Program PUMK
+                        </p>
+                    </div>
+
+                    <div class="bg-white text-gray-700 text-sm rounded-lg px-4 py-2 mt-4 md:mt-0">
+                        Periode: 2025-11
+                    </div>
+                </div>
+            </div>
+
             <!-- ================= AKUMULASI ================= -->
             <h3 class="font-semibold text-lg mb-4 fade-up">
                 Laporan Akumulasi Penyaluran dan PUMK (2025-11)
@@ -66,15 +259,10 @@
 
             <!-- GRID AMAN -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 mb-10">
-                <!-- Sumber Dana POS - DIPERBAIKI -->
+                <!-- Sumber Dana POS -->
                 <div class="bg-white rounded-xl shadow-md p-5 flex items-center gap-4 fade-up card-hover" style="animation-delay: 0s">
                     <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                        <!-- Ikon alternatif jika fa-piggy-bank tidak tersedia -->
                         <i class="fas fa-money-bill-wave text-blue-600 text-xl"></i>
-                        <!-- Atau gunakan SVG langsung sebagai fallback -->
-                        <svg class="fas fa-money-bill-wave text-blue-600 text-xl" style="display: none;">
-                            <!-- SVG fallback akan ditampilkan via JavaScript -->
-                        </svg>
                     </div>
                     <div>
                         <div class="text-xs text-gray-500">Sumber Dana POS</div>
@@ -238,7 +426,7 @@
 
             <!-- ================= FOOTER ================= -->
             <div class="mt-12 pt-8 border-t border-gray-300 text-center text-sm text-gray-500 fade-up">
-                <p>Sistem Monitoring & Evaluasi Program PUMK - &copy; 2025</p>
+                <p>Sistem Monitoring & Evaluasi Program PUMK - PT Pos Indonesia &copy; 2025</p>
                 <p class="mt-1">Data diperbarui terakhir: 15 November 2025</p>
             </div>
         </div>
@@ -376,6 +564,28 @@
                     }
                 });
             }
+
+            // Fungsi untuk logout (simulasi)
+            const logoutForms = document.querySelectorAll('form[id^="logout-form"]');
+            logoutForms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Logout berhasil! (Ini hanya simulasi)');
+                    // Di aplikasi nyata, ini akan mengarahkan ke halaman login
+                    window.location.href = '/login';
+                });
+            });
+            
+            // Tambahkan kelas aktif ke menu berdasarkan URL
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('nav a[href]');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('text-[#D42E12]', 'font-semibold');
+                    link.classList.remove('text-gray-700');
+                }
+            });
         });
     </script>
 </body>
