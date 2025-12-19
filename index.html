@@ -6,6 +6,190 @@
 <meta name="theme-color" content="#D42E12">
 
 <title>Dashboard PROGRAM PENYALURAN PUMK - PT Pos Indonesia</title>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#D42E12">
+
+<title>Dashboard PUMK - PT Pos Indonesia</title>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+}
+
+.header-gradient{background:linear-gradient(to right,#D42E12,#000)}
+
+.navbar-fixed{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#fff;
+}
+
+.chart-container{height:220px}
+@media(min-width:768px){
+    .chart-container{height:260px}
+}
+
+.card-hover{transition:.25s}
+.card-hover:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 20px rgba(212,46,18,.25);
+}
+</style>
+</head>
+
+<body class="bg-gray-100"
+x-data="{open:false}">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar-fixed shadow-md border-b">
+<div class="max-w-7xl mx-auto px-4">
+<div class="flex justify-between items-center h-16 md:h-20">
+
+<!-- LOGO -->
+<div class="flex items-center space-x-3">
+<img src="posindo.png" class="h-8 md:h-10" alt="POS">
+<span class="font-bold text-gray-700 text-sm md:text-base">
+PUMK Dashboard
+</span>
+</div>
+
+<!-- MENU DESKTOP -->
+<div class="hidden md:flex items-center space-x-2">
+<a href="index.html"
+   class="px-4 py-2 rounded-lg text-sm font-medium text-white bg-[#D42E12]">
+<i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+</a>
+
+<a href="data-nominatif-pumk.html"
+   class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-red-50">
+<i class="fas fa-database mr-2"></i>Data PUMK
+</a>
+</div>
+
+<!-- MOBILE BUTTON -->
+<button @click="open=!open" class="md:hidden">
+<i class="fas fa-bars text-xl text-gray-700"></i>
+</button>
+
+</div>
+</div>
+
+<!-- MENU MOBILE -->
+<div x-show="open" x-transition
+     class="md:hidden bg-white border-t">
+<a href="index.html"
+   class="block px-4 py-3 border-b text-[#D42E12] font-medium">
+<i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+</a>
+
+<a href="data-nominatif-pumk.html"
+   class="block px-4 py-3 border-b hover:bg-gray-50">
+<i class="fas fa-database mr-2"></i>Data PUMK
+</a>
+</div>
+</nav>
+
+<!-- ================= CONTENT ================= -->
+<div class="pt-6 pb-10">
+<div class="max-w-7xl mx-auto px-4">
+
+<!-- HEADER -->
+<div class="header-gradient text-white p-6 rounded-xl mb-6">
+<h2 class="text-xl md:text-3xl font-bold">
+DASHBOARD PROGRAM PENYALURAN PUMK
+</h2>
+<p class="text-sm md:text-base opacity-90 mt-2">
+Monitoring & Evaluasi Program
+</p>
+</div>
+
+<!-- SUMMARY -->
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+<div class="bg-white p-4 rounded-xl text-center card-hover">
+<div class="font-bold text-[#D42E12] text-lg">Rp 43.2 M</div>
+<div class="text-xs text-gray-500">Sumber Dana</div>
+</div>
+<div class="bg-white p-4 rounded-xl text-center card-hover">
+<div class="font-bold text-[#D42E12] text-lg">Rp 39.2 M</div>
+<div class="text-xs text-gray-500">Dana Disalurkan</div>
+</div>
+<div class="bg-white p-4 rounded-xl text-center card-hover">
+<div class="font-bold text-[#D42E12] text-lg">Rp 3.9 M</div>
+<div class="text-xs text-gray-500">Belum Salur</div>
+</div>
+<div class="bg-white p-4 rounded-xl text-center card-hover">
+<div class="font-bold text-[#D42E12] text-lg">1.147</div>
+<div class="text-xs text-gray-500">Mitra</div>
+</div>
+<div class="bg-white p-4 rounded-xl text-center card-hover">
+<div class="font-bold text-[#D42E12] text-lg">Rp 18.8 M</div>
+<div class="text-xs text-gray-500">Outstanding</div>
+</div>
+</div>
+
+<!-- CHART -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-white p-4 rounded-xl shadow">
+<h4 class="font-semibold mb-3">Sektor Ekonomi</h4>
+<div class="chart-container">
+<canvas id="sektorChart"></canvas>
+</div>
+</div>
+
+<div class="bg-white p-4 rounded-xl shadow">
+<h4 class="font-semibold mb-3">Kualitas Program</h4>
+<div class="chart-container">
+<canvas id="kualitasChart"></canvas>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+new Chart(document.getElementById('sektorChart'),{
+type:'pie',
+data:{
+labels:['Industri','Perdagangan','Pertanian','Jasa'],
+datasets:[{
+data:[20,55,10,15],
+backgroundColor:['#3B82F6','#10B981','#F59E0B','#EF4444']
+}]
+},
+options:{responsive:true,maintainAspectRatio:false}
+});
+
+new Chart(document.getElementById('kualitasChart'),{
+type:'doughnut',
+data:{
+labels:['Lancar','Kurang Lancar','Macet'],
+datasets:[{
+data:[91,6,3],
+backgroundColor:['#16A34A','#FACC15','#DC2626']
+}]
+},
+options:{responsive:true,maintainAspectRatio:false,cutout:'60%'}
+});
+</script>
+
+</body>
+</html>
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -195,3 +379,4 @@ options:{responsive:true,maintainAspectRatio:false,cutout:'60%'}
 
 </body>
 </html>
+
