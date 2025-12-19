@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>Data Nominatif Penyaluran PUMK - PT Pos Indonesia</title>
 
-    <!-- VIEWPORT ANDROID FIX -->
+    <!-- VIEWPORT ANDBOID FIX -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#D42E12">
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- LOAD STYLES FIRST -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         * { margin:0; padding:0; box-sizing:border-box }
@@ -44,6 +44,7 @@
 
             <div class="flex items-center space-x-8">
                 <a href="index.html" class="flex items-center">
+                    <!-- PASTIKAN FILE GAMBAR ADA DI LOKASI YANG BENAR -->
                     <img src="posindo.png" class="h-10 object-contain" alt="PT Pos Indonesia">
                 </a>
 
@@ -70,8 +71,8 @@
                         <i class="fas fa-chevron-down text-gray-500 text-xs"></i>
                     </button>
 
-                    <div x-show="dropdownOpen" @click.away="dropdownOpen=false"
-                         class="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg border border-gray-200 z-50">
+                    <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition
+                         class="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg border border-gray-200 z-50" style="display: none;">
                         <div class="px-4 py-3 bg-gradient-to-r from-red-50 to-blue-50 border-b">
                             <div class="font-medium text-gray-800">Admin User</div>
                             <div class="text-sm text-gray-500">admin@posindonesia.co.id</div>
@@ -95,7 +96,8 @@
         </div>
     </div>
 
-    <div x-show="open" class="md:hidden border-t border-gray-200 bg-white">
+    <!-- MOBILE MENU -->
+    <div x-show="open" x-transition class="md:hidden border-t border-gray-200 bg-white" style="display: none;">
         <a href="index.html" class="block px-4 py-3 border-b hover:bg-red-50">
             <i class="fas fa-tachometer-alt w-5 mr-3 text-gray-500"></i>Dashboard
         </a>
@@ -109,6 +111,7 @@
 <div class="pt-8 bg-gray-100 min-h-screen">
 <div class="max-w-7xl mx-auto px-4">
 
+    <!-- HEADER -->
     <div class="mb-8">
         <div class="bg-gradient-to-r from-[#D42E12] to-black text-white py-6 px-6 rounded-xl">
             <h2 class="text-2xl font-bold">DATA NOMINATIF PENYALURAN PUMK</h2>
@@ -116,10 +119,148 @@
         </div>
     </div>
 
-    <!-- (SEMUA KONTEN DATA PUMK TETAP SAMA, TIDAK DIUBAH) -->
+    <!-- TOOLBAR -->
+    <div class="bg-white rounded-lg shadow mb-6 p-6" x-data="{ filterOpen: false }">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div class="flex items-center space-x-4">
+                <button class="bg-[#D42E12] hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                    <i class="fas fa-plus mr-2"></i>Tambah Data
+                </button>
+                <button class="border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium flex items-center">
+                    <i class="fas fa-download mr-2"></i>Export Excel
+                </button>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Cari nama mitra..." class="border border-gray-300 rounded-lg pl-10 pr-4 py-2 w-full md:w-64 focus:ring-2 focus:ring-[#D42E12] focus:border-transparent">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                <button @click="filterOpen = !filterOpen" class="border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg font-medium flex items-center">
+                    <i class="fas fa-filter mr-2"></i>Filter
+                </button>
+            </div>
+        </div>
+
+        <!-- FILTER PANEL -->
+        <div x-show="filterOpen" x-transition class="mt-6 p-4 border border-gray-200 rounded-lg bg-gray-50" style="display: none;">
+            <h3 class="font-bold text-gray-700 mb-4">Filter Data</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Tahun Program</label>
+                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                        <option>Semua Tahun</option>
+                        <option>2024</option>
+                        <option>2023</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                        <option>Semua Status</option>
+                        <option>Aktif</option>
+                        <option>Non-Aktif</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Usaha</label>
+                    <select class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                        <option>Semua Jenis</option>
+                        <option>UMKM</option>
+                        <option>Koperasi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-end mt-4">
+                <button class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium mr-2">Reset</button>
+                <button class="bg-[#D42E12] hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">Terapkan Filter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATA TABLE -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Mitra Binaan</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lokasi</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Usaha</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nilai Bantuan (Rp)</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="font-medium text-gray-900">CV Maju Jaya Abadi</div>
+                            <div class="text-sm text-gray-500">Kode: PUMK-001-24</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">Bandung, Jawa Barat</td>
+                        <td class="px-6 py-4 whitespace-nowrap">UMKM Kuliner</td>
+                        <td class="px-6 py-4 whitespace-nowrap">25.000.000</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Aktif</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3">Detail</button>
+                            <button class="text-green-600 hover:text-green-900 mr-3">Edit</button>
+                            <button class="text-red-600 hover:text-red-900">Hapus</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="font-medium text-gray-900">UD Sumber Rejeki</div>
+                            <div class="text-sm text-gray-500">Kode: PUMK-002-24</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">Surabaya, Jawa Timur</td>
+                        <td class="px-6 py-4 whitespace-nowrap">UMKM Kerajinan</td>
+                        <td class="px-6 py-4 whitespace-nowrap">15.000.000</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Proses</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button class="text-blue-600 hover:text-blue-900 mr-3">Detail</button>
+                            <button class="text-green-600 hover:text-green-900 mr-3">Edit</button>
+                            <button class="text-red-600 hover:text-red-900">Hapus</button>
+                        </td>
+                    </tr>
+                    <!-- Data lainnya bisa ditambahkan di sini -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="bg-gray-50 px-6 py-3 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-700">
+                    Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">2</span> dari <span class="font-medium">12</span> data
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 border border-gray-300 rounded text-sm font-medium hover:bg-gray-50">Sebelumnya</button>
+                    <button class="px-3 py-1 bg-[#D42E12] text-white rounded text-sm font-medium">1</button>
+                    <button class="px-3 py-1 border border-gray-300 rounded text-sm font-medium hover:bg-gray-50">2</button>
+                    <button class="px-3 py-1 border border-gray-300 rounded text-sm font-medium hover:bg-gray-50">Selanjutnya</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 </div>
+
+<!-- LOAD ALPINE.JS LAST - INI PERBAIKAN UTAMA -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<!-- OPTIONAL: Jika butuh interaksi lebih kompleks, tambahkan script custom -->
+<script>
+    // Script untuk notifikasi atau fungsi tambahan bisa ditambahkan di sini
+    document.addEventListener('alpine:init', () => {
+        // Inisialisasi state global Alpine.js jika diperlukan
+        console.log('Alpine.js berhasil diinisialisasi');
+    });
+</script>
 
 </body>
 </html>
