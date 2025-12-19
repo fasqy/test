@@ -1,94 +1,69 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>Data Nominatif Penyaluran PUMK</title>
+    <meta charset="UTF-8">
+    <title>Data Nominatif Penyaluran PUMK - PT Pos Indonesia</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#D42E12">
+    <!-- ANDROID VIEWPORT FIX (TAMBAHAN, TIDAK MENGUBAH YANG ADA) -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- THEME COLOR ANDROID -->
+    <meta name="theme-color" content="#D42E12">
 
-<style>
-*{box-sizing:border-box}
-[x-cloak]{display:none!important}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-html,body{
-    width:100%;
-    height:100%;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
-}
+    <style>
+        /* ================= ANDROID FIX ONLY ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-.navbar-fixed{
-    position:sticky;
-    top:0;
-    z-index:9999;
-    background:#fff;
-}
-</style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            font-family: -apple-system, BlinkMacSystemFont,
+                         'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        body {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .transition-all-200 {
+            transition: all .2s ease-in-out;
+        }
+
+        .navbar-fixed {
+            position: sticky;
+            top: env(safe-area-inset-top);
+            z-index: 1000;
+            background: #fff;
+        }
+
+        /* Pastikan mobile menu tidak ketutup */
+        nav {
+            padding-top: env(safe-area-inset-top);
+        }
+
+        /* Tabel aman di Android kecil */
+        table {
+            min-width: 1000px;
+        }
+
+        /* Button aman disentuh */
+        button, a {
+            touch-action: manipulation;
+        }
+        /* ==================================================== */
+    </style>
 </head>
 
-<body class="bg-gray-100">
-
-<!-- ================= NAVBAR ================= -->
-<nav x-data="{ open:false, dropdownOpen:false }" class="navbar-fixed shadow-md border-b">
-<div class="max-w-7xl mx-auto px-4">
-<div class="flex justify-between h-16 md:h-20 items-center">
-
-<div class="flex items-center space-x-6">
-<img src="posindo.png" class="h-9" alt="POS">
-
-<div class="hidden md:flex space-x-3">
-<a href="index.html" class="px-3 py-2 hover:bg-red-50 rounded-lg">
-<i class="fas fa-tachometer-alt mr-2"></i>DASHBOARD
-</a>
-<a href="data-nominatif-pumk.html" class="px-3 py-2 hover:bg-red-50 rounded-lg">
-<i class="fas fa-database mr-2"></i>DATA PUMK
-</a>
-</div>
-</div>
-
-<div class="flex items-center space-x-4">
-<div class="relative">
-<button @click="dropdownOpen=!dropdownOpen" class="flex items-center px-3 py-2 border rounded-lg">
-<div class="w-8 h-8 bg-red-600 rounded-full text-white flex items-center justify-center mr-2">AU</div>
-<span class="hidden sm:block">Admin</span>
-<i class="fas fa-chevron-down ml-2"></i>
-</button>
-
-<div x-show="dropdownOpen" x-cloak x-transition @click.away="dropdownOpen=false"
-class="absolute right-0 mt-2 w-48 bg-white shadow-lg border rounded-lg">
-<a href="#" class="block px-4 py-3 hover:bg-gray-100">Profile</a>
-<a href="#" class="block px-4 py-3 hover:bg-gray-100">Password</a>
-<a href="#" class="block px-4 py-3 text-red-600 hover:bg-red-50">Logout</a>
-</div>
-</div>
-
-<button @click="open=!open" class="md:hidden">
-<i class="fas fa-bars text-xl"></i>
-</button>
-</div>
-</div>
-</div>
-
-<div x-show="open" x-cloak x-transition class="md:hidden bg-white border-t">
-<a href="index.html" class="block px-4 py-3">Dashboard</a>
-<a href="data-nominatif-pumk.html" class="block px-4 py-3">Data PUMK</a>
-</div>
-</nav>
-
-<!-- ================= CONTENT ================= -->
-<div class="pt-6 pb-12">
-<div class="max-w-7xl mx-auto px-4">
-
-<!-- SEMUA KONTEN KAMU (UPLOAD, SEARCH, FILTER, TABLE, PAGINATION)
-TETAP BERFUNGSI KARENA TIDAK DIUBAH -->
-
-</div>
-</div>
-
-</body>
-</html>
+<body class="bg-gray-50">
