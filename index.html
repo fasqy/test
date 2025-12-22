@@ -25,7 +25,6 @@ body {
 .right { text-align: right; }
 .bold { font-weight: bold; }
 
-/* ================= TABEL ================= */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -125,28 +124,26 @@ th, td {
         <td width="70%" class="bold">Rata-rata Angsuran</td>
     </tr>
     <tr>
-        <td width="30%"></td>
-        <td width="70%">Tahun ke-1 : Rp. 290.000</td>
+        <td></td>
+        <td>Tahun ke-1 : Rp. 290.000</td>
     </tr>
     <tr>
-        <td width="30%"></td>
-        <td width="70%">Tahun ke-2 : Rp. 290.000</td>
+        <td></td>
+        <td>Tahun ke-2 : Rp. 290.000</td>
     </tr>
     <tr>
-        <td width="30%"></td>
-        <td width="70%">Tahun ke-3 : Rp. 290.000</td>
+        <td></td>
+        <td>Tahun ke-3 : Rp. 290.000</td>
     </tr>
     <tr>
         <td>Periode Angsuran</td>
-        <td width="70%">: Januari 2023 s/d Desember 2025</td>
+        <td>: Januari 2023 s/d Desember 2025</td>
     </tr>
     <tr>
         <td>Jasa Pinjaman</td>
-        <td width="70%">: Anuitas 3%</td>
+        <td>: Anuitas 3%</td>
     </tr>
 </table>
-
-
 
 <!-- ================= TABEL UTAMA ================= -->
 <table>
@@ -158,11 +155,28 @@ th, td {
         <th rowspan="2">Keterangan</th>
     </tr>
     <tr class="center bold">
-        <th>Pokok</th><th>Jasa</th><th>Jumlah</th>
-        <th>Pokok</th><th>Jasa</th><th>Jumlah</th>
+        <th>Pokok</th>
+        <th>Jasa</th>
+        <th>Jumlah</th>
+        <th>Pokok</th>
+        <th>Jasa</th>
+        <th>Jumlah</th>
     </tr>
 
-    <!-- DATA -->
+    <!-- ===== PENOMORAN KOLOM ===== -->
+    <tr class="center">
+        <td>(1)</td>
+        <td>(2)</td>
+        <td>(3)</td>
+        <td>(4)</td>
+        <td>(5)</td>
+        <td>(6)</td>
+        <td>(7)</td>
+        <td>(8)</td>
+        <td>(9)</td>
+    </tr>
+
+    <!-- ===== DATA ===== -->
     <tr><td>1</td><td>31 Jan 2023</td><td>273.000</td><td>25.000</td><td>298.000</td><td>9.727.000</td><td>444.235</td><td>10.171.235</td><td>POSPAY</td></tr>
     <tr><td>2</td><td>3 Mar 2023</td><td>250.000</td><td>48.000</td><td>298.000</td><td>9.477.000</td><td>396.235</td><td>9.873.235</td><td>POSPAY</td></tr>
     <tr><td>3</td><td>3 Mei 2023</td><td>203.000</td><td>45.000</td><td>248.000</td><td>9.274.000</td><td>351.235</td><td>9.625.235</td><td>POSPAY</td></tr>
@@ -172,57 +186,23 @@ th, td {
     <tr><td>7</td><td>29 Apr 2024</td><td>398.000</td><td>100.000</td><td>498.000</td><td>8.079.000</td><td>150.235</td><td>8.229.235</td><td>POSPAY</td></tr>
     <tr><td>8</td><td>27 Agu 2024</td><td>448.000</td><td>52.000</td><td>500.000</td><td>7.631.000</td><td>98.235</td><td>7.729.235</td><td>POSPAY</td></tr>
     <tr><td>9</td><td>30 Okt 2024</td><td>478.000</td><td>22.000</td><td>500.000</td><td>7.153.000</td><td>76.235</td><td>7.229.235</td><td>POSPAY</td></tr>
-    <tr><td>10</td><td>24 Mei 2025</td><td>243.000</td><td>56.000</td><td>299.000</td><td>6.910.000</td><td>20.235</td><td>6.930.235</td><td>POSPAY</td></tr>
-    <tr><td>11</td><td>30 Jun 2025</td><td>193.000</td><td>5.000</td><td>198.000</td><td>6.717.000</td><td>15.235</td><td>6.732.235</td><td>POSPAY</td></tr>
-    <tr><td>12</td><td>26 Jul 2025</td><td>194.000</td><td>4.000</td><td>198.000</td><td>6.523.000</td><td>11.235</td><td>6.534.235</td><td>POSPAY</td></tr>
-    <tr><td>13</td><td>27 Agu 2025</td><td>194.000</td><td>4.000</td><td>198.000</td><td>6.329.000</td><td>7.235</td><td>6.336.235</td><td>POSPAY</td></tr>
-    <tr><td>14</td><td>30 Sep 2025</td><td>246.000</td><td>2.000</td><td>248.000</td><td>6.083.000</td><td>5.235</td><td>6.088.235</td><td>POSPAY</td></tr>
-    <tr><td>15</td><td>31 Okt 2025</td><td>195.000</td><td>3.000</td><td>198.000</td><td>5.888.000</td><td>2.235</td><td>5.890.235</td><td>POSPAY</td></tr>
-    <tr><td>16</td><td>23 Nov 2025</td><td>197.000</td><td>1.000</td><td>198.000</td><td>5.691.000</td><td>1.235</td><td>5.692.235</td><td>POSPAY</td></tr>
-
-    <tr class="bold">
-        <td colspan="2" class="center">Jumlah</td>
-        <td>4.309.000</td>
-        <td>468.000</td>
-        <td>4.777.000</td>
-        <td>5.691.000</td>
-        <td>1.235</td>
-        <td>5.692.235</td>
-        <td></td>
-    </tr>
 </table>
 
-<!-- ================= TANDA TANGAN (BAWAH KANAN) ================= -->
+<!-- ================= TANDA TANGAN ================= -->
 <table class="no-border" style="margin-top:35px;">
     <tr>
         <td width="60%"></td>
         <td width="40%" class="center">
             Asman/Manajer PKBLD<br>
-            Bandung<br><br><br><br><br><br>
+            Bandung<br><br><br><br><br>
             <strong>Dody Frisenaldy</strong><br>
             Nippos 974358368
         </td>
     </tr>
 </table>
 
-<br>
 <div class="small">17 Des 2025 13.53</div>
 
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
