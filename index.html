@@ -12,7 +12,7 @@
 
 body {
     font-family: "Times New Roman", serif;
-    font-size: 12pt;          /* NAIK dari 11px */
+    font-size: 12pt;
     color: #000;
 }
 
@@ -33,30 +33,25 @@ table {
 
 th, td {
     border: 1px solid #000;
-    padding: 3px 5px;         /* lebih lega seperti PDF */
-    font-size: 12pt;          /* ukuran isi tabel */
+    padding: 3px 5px;
+    font-size: 12pt;
     vertical-align: middle;
 }
 
-/* tabel tanpa garis */
 .no-border td {
     border: none;
     padding: 3px 5px;
-    font-size: 12pt;
 }
 
-/* judul utama */
 .no-border .center.bold {
     font-size: 14pt;
     line-height: 1.3;
 }
 
-/* footer tanggal */
 .small {
     font-size: 10.5pt;
 }
 </style>
-
 </head>
 
 <body>
@@ -102,30 +97,13 @@ th, td {
         </td>
     </tr>
     <tr>
-        <td>Nomor Telepon</td><br><br>
+        <td>Nomor Telepon</td>
         <td>: Usaha : - &nbsp;&nbsp; HP : 081912707142</td>
         <td></td>
     </tr>
 </table>
 
-<!-- ================= PEJABAT ================= -->
-<table class="no-border">
-    <tr>
-        <td>
-            Asman/Manajer PKBLD<br>
-            Bandung
-            <div style="margin-top:60px;">
-                <strong>Dody Frisenaldy</strong><br>
-                Nippos 974358368<br><br>
-            </div>
-        </td>
-    </tr>
-</table>
-
-
-
-
-<!-- ================= PINJAMAN (SESUAI PDF) ================= -->
+<!-- ================= PINJAMAN ================= -->
 <table class="no-border">
     <tr>
         <td width="30%">Jumlah Pinjaman</td>
@@ -140,24 +118,15 @@ th, td {
     </tr>
 </table>
 
-<!-- ================= RATA-RATA ANGSURAN ================= -->
+<!-- ================= RATA-RATA ================= -->
 <table class="no-border">
     <tr>
         <td width="30%">Rata-rata Angsuran</td>
-        <td width="70%"></td>
-    </tr>
-    <tr>
         <td></td>
-        <td>Tahun ke-1 : Rp. 290.000</td>
     </tr>
-    <tr>
-        <td></td>
-        <td>Tahun ke-2 : Rp. 290.000</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>Tahun ke-3 : Rp. 290.000</td>
-    </tr>
+    <tr><td></td><td>Tahun ke-1 : Rp. 290.000</td></tr>
+    <tr><td></td><td>Tahun ke-2 : Rp. 290.000</td></tr>
+    <tr><td></td><td>Tahun ke-3 : Rp. 290.000</td></tr>
     <tr>
         <td>Periode Angsuran</td>
         <td>: Januari 2023 s/d Desember 2025</td>
@@ -178,12 +147,8 @@ th, td {
         <th rowspan="2">Keterangan</th>
     </tr>
     <tr class="center bold">
-        <th>Pokok</th>
-        <th>Jasa</th>
-        <th>Jumlah</th>
-        <th>Pokok</th>
-        <th>Jasa</th>
-        <th>Jumlah</th>
+        <th>Pokok</th><th>Jasa</th><th>Jumlah</th>
+        <th>Pokok</th><th>Jasa</th><th>Jumlah</th>
     </tr>
 
     <!-- DATA -->
@@ -216,18 +181,22 @@ th, td {
     </tr>
 </table>
 
+<!-- ================= TANDA TANGAN (BAWAH KANAN) ================= -->
+<table class="no-border" style="margin-top:35px;">
+    <tr>
+        <td width="60%"></td>
+        <td width="40%" class="center">
+            Asman/Manajer PKBLD<br>
+            Bandung<br><br><br>
+            <strong>Dody Frisenaldy</strong><br>
+            Nippos 974358368
+        </td>
+    </tr>
+</table>
+
 <br>
 <div class="small">17 Des 2025 13.53</div>
 
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
