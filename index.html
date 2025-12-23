@@ -1,245 +1,330 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<title>Kartu Pengawasan Angsuran</title>
+    <meta charset="UTF-8" />
+    <title>Kartu Pengawasan Angsuran</title>
 
-<style>
-@page {
-    size: A4;
-    margin: 2cm; 
-}
-body {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 10pt;
-    color: #000;
-}
+    <style>
+        @page {
+            margin: 0.5cm;
+        }
 
-/* pastikan semua tabel ikut */
-table, th, td {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 10pt;
-}
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 10pt;
+        }
 
-.container {
-    width: 100%;
-    margin: auto;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-.center { text-align: center; }
-.right { text-align: right; }
-.bold { font-weight: bold; }
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 2px 4px;
+            vertical-align: middle;
+        }
 
-/* ================= TABEL ================= */
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        /* Utility Classes */
+        .no-border td {
+            border: none;
+        }
 
-th, td {
-    border: 1px solid #000;
-    padding: 2px 4px; /* lebih rapat sesuai font 8 */
-    vertical-align: middle;
-}
+        .center {
+            text-align: center;
+        }
 
-/* tabel tanpa garis */
-.no-border td {
-    border: none;
-    padding: 2px 4px;
-}
+        .right {
+            text-align: right;
+        }
 
-/* ================= JUDUL ================= */
-/* Judul utama */
-.no-border .center.bold {
-    font-size: 10pt; /* JUDUL 10 */
-    line-height: 1.2;
-}
+        .left {
+            text-align: left;
+        }
 
-/* Header kiri & kanan */
-.no-border td.bold {
-    font-size: 10pt;
-}
+        .bold {
+            font-weight: bold;
+        }
 
-/* footer tanggal */
-.small {
-    font-size: 10pt;
-}
-</style>
+        .valign-top {
+            vertical-align: top;
+        }
 
+        /* Footer Style */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 10pt;
+            background-color: white;
+            /* Opsional: agar tulisan jelas jika menumpuk */
+            padding-top: 5px;
+        }
 
+        /* ================= KUNCI PENJAJARAN (ALIGNMENT KEY) ================= */
+        /* Total Anchor point target kita adalah 22% (5% + 17%) */
+
+        /* 1. Untuk Tabel Utama (Bawah) */
+        .w-no {
+            width: 5%;
+        }
+
+        /* Kolom (1) Ang ke */
+        .w-date {
+            width: 17%;
+        }
+
+        /* Kolom (2) Tanggal Setor */
+
+        /* 2. Untuk Tabel Atas (Agar sejajar dengan 22%) */
+        .w-label {
+            width: 20%;
+        }
+
+        /* Label (Nama, Alamat, dll) */
+        .w-sep {
+            width: 2%;
+            text-align: center;
+        }
+
+        /* Kolom Titik Dua (:) */
+
+        /* Sisa lebar untuk isi data */
+        .w-val {
+            width: 48%;
+        }
+
+        /* Isi Data Tengah */
+        .w-val-right {
+            width: 30%;
+        }
+
+        /* Isi Data Kanan (ID Mitra) */
+    </style>
 </head>
 
 <body>
-<div class="container">
+    <div class="container">
+        <table class="no-border">
+            <tr>
+                <td width="25%">
+                    <img src="{{ public_path('images/posind.png') }}" alt="Logo" width="40%" />
+                </td>
+                <td width="50%" class="center bold">
+                    KARTU PENGAWASAN<br />PEMBAYARAN ANGSURAN PINJAMAN<br />{{ strtoupper($h->tjsld) }}
+                </td>
+                <td width="25%" class="right bold">Kug-3</td>
+            </tr>
+        </table>
+        <br />
 
-<!-- ================= HEADER ================= -->
-<table class="no-border">
-    <tr>
-        <td width="25%" class="bold">POS INDONESIA</td>
-        <td width="50%" class="center bold">
-            KARTU PENGAWASAN<br>
-            PEMBAYARAN ANGSURAN PINJAMAN<br>
-            BANDUNG
-        </td>
-        <td width="25%" class="right bold">Kug-3</td>
-    </tr>
-</table>
+        <table class="no-border">
+            <tr>
+                <td class="w-label">Nama Mitra Binaan</td>
+                <td class="w-sep">:</td>
+                <td class="w-val">{{ $h->nama }}</td>
+                <td class="w-val-right">ID Mitra Binaan : {{ $h->id_mb }}</td>
+            </tr>
+            <tr>
+                <td class="w-label">Nomor Register</td>
+                <td class="w-sep">:</td>
+                <td class="w-val">{{ $h->noregistrasi }}</td>
+                <td class="w-val-right"></td>
+            </tr>
+            <tr>
+                <td class="w-label valign-top">Alamat Usaha</td>
+                <td class="w-sep valign-top">:</td>
+                <td class="w-val valign-top" colspan="2">
+                    {{ $h->alamat }}
+                </td>
+            </tr>
+            <tr>
+                <td class="w-label valign-top">Alamat Rumah</td>
+                <td class="w-sep valign-top">:</td>
+                <td class="w-val valign-top" colspan="2">
+                    -
+                </td>
+            </tr>
 
-<!-- ================= DATA MITRA ================= -->
-<table class="no-border">
-    <tr>
-        <td>Nama Mitra Binaan</td>&nbsp;&nbsp;&nbsp;
-        <td>: INA MUTMAINAH</td>&nbsp;&nbsp;&nbsp;
-        <td>ID Mitra Binaan : 50295</td>
-    </tr>
-    <tr>
-        <td>Nomor Register</td>&nbsp;&nbsp;&nbsp;
-        <td>: 10.00528.22</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>Alamat Usaha</td>
-        <td colspan="2">
-            : CICUKANG UTARA RT 003/RW 007 CISARANTEN BINA HARAPAN
-            ARCAMANIK KOTA BANDUNG
-        </td>
-    </tr>
-    <tr>
-        <td>Alamat Rumah</td>
-        <td colspan="2">
-            : CICUKANG UTARA RT 003/RW 007 CISARANTEN BINA HARAPAN
-            ARCAMANIK KOTA BANDUNG
-        </td>
-    </tr>
-    <tr>
-        <td>Nomor Telepon</td>
-        <td>: Usaha : - &nbsp;&nbsp; HP : 081912707142</td>
-        <td></td>
-    </tr>
-</table>
+            <tr>
+                <td class="w-label">Jenis Usaha</td>
+                <td class="w-sep">:</td>
+                <td class="w-val" colspan="2">{{ $h->jenis_usaha }}</td>
+            </tr>
 
-<table class="no-border" style="margin-top:6px;">
-<tr class="center bold">
-    <td width="25%"></td>
-    <td width="25%">Pokok</td>
-    <td width="25%">Jasa</td>
-    <td width="25%">Jumlah</td>
-</tr>
+            <tr>
+                <td class="w-label">Nomor Telepon</td>
+                <td class="w-sep">:</td>
+                <td class="w-val" colspan="2">-</td>
+            </tr>
+        </table>
 
-<tr>
-    <td class="bold">Jumlah Pinjaman&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</td>
-    <td class="center">Rp. 10.000.000</td>
-    <td class="center">Rp. 469.235</td>
-    <td class="center">Rp. 10.469.235</td>
-</tr>
+        <table class="no-border" style="margin-top: 5px">
+            <tr class="center bold">
+                <td colspan="2" style="width: 22%"></td>
 
-<tr>
-    <td colspan="4" class="center bold" style="padding-top:6px;">
-        Rata-rata Angsuran
-    </td>
-</tr>
+                <td width="26%">Pokok</td>
+                <td width="26%">Jasa</td>
+                <td width="26%">Jumlah</td>
+            </tr>
+            <tr>
+                <td class="w-label">Jumlah Pinjaman</td>
+                <td class="w-sep">:</td>
+                <td class="center">Rp. {{ number_format($h->jumlah_realisasi, 0, ',', '.') }}</td>
+                <td class="center">Rp. 0</td>
+                <td class="center">Rp. {{ number_format($h->jumlah_realisasi, 0, ',', '.') }}</td>
+            </tr>
+        </table>
 
-<tr>
-    <td>Tahun ke-1</td>
-    <td colspan="3">&nbsp;&nbsp;&nbsp;: Rp. 290.000</td>
-</tr>
-<tr>
-    <td>Tahun ke-2</td>
-    <td colspan="3">&nbsp;&nbsp;&nbsp;: Rp. 290.000</td>
-</tr>
-<tr>
-    <td>Tahun ke-3</td>
-    <td colspan="3">&nbsp;&nbsp;&nbsp;: Rp. 290.000</td>
-</tr>
+        <table class="no-border" style="margin-top: 5px">
+            <tr>
+                <td colspan="3" style="width: 22%"></td>
+                <td class="bold">Rata-rata Angsuran</td>
+            </tr>
 
-<tr>
-    <td>Periode Angsuran</td>
-    <td colspan="3">: Januari 2023 s/d Desember 2025</td>
-</tr>
-<tr>
-    <td>Jasa Pinjaman</td>
-    <td colspan="3">: Anuitas 3%</td>
-</tr>
-</table>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 15%">Tahun ke-1</td>
+                <td class="w-sep">:</td>
+                <td>Rp. 290.000</td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 15%">Tahun ke-2</td>
+                <td class="w-sep">:</td>
+                <td>Rp. 290.000</td>
+            </tr>
+            <tr>
+                <td style="width: 5%"></td>
+                <td style="width: 15%">Tahun ke-3</td>
+                <td class="w-sep">:</td>
+                <td>Rp. 290.000</td>
+            </tr>
+        </table>
 
-<!-- ================= TABEL UTAMA ================= -->
-<table style="margin-top:8px;">
-    <tr class="center bold">
-        <th rowspan="2">Ang.<br>ke</th>
-        <th rowspan="2">Tanggal<br>Setor</th>
-        <th colspan="3">Penerimaan Angsuran</th>
-        <th colspan="3">Sisa Pinjaman</th>
-        <th rowspan="2">Keterangan</th>
-    </tr>
-    <tr class="center bold">
-        <th>Pokok</th>
-        <th>Jasa</th>
-        <th>Jumlah</th>
-        <th>Pokok</th>
-        <th>Jasa</th>
-        <th>Jumlah</th>
-    </tr>
-    <tr class="center">
-        <td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td><td>(5)</td>
-        <td>(6)</td><td>(7)</td><td>(8)</td><td>(9)</td>
-    </tr>
+        <table class="no-border">
+            <tr>
+                <td class="w-label">Periode Angsuran</td>
+                <td class="w-sep">:</td>
+                <td>Januari 2023 s/d Desember 2025</td>
+            </tr>
+            <tr>
+                <td class="w-label">Jasa Pinjaman</td>
+                <td class="w-sep">:</td>
+                <td>Anuitas 3%</td>
+            </tr>
+        </table>
 
-    <tr><td class="center">1</td><td>31 Jan 2023</td><td>273.000</td><td>25.000</td><td>298.000</td><td>9.727.000</td><td>444.235</td><td>10.171.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">2</td><td>3 Mar 2023</td><td>250.000</td><td>48.000</td><td>298.000</td><td>9.477.000</td><td>396.235</td><td>9.873.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">3</td><td>3 Mei 2023</td><td>203.000</td><td>45.000</td><td>248.000</td><td>9.274.000</td><td>351.235</td><td>9.625.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">4</td><td>31 Jul 2023</td><td>206.000</td><td>42.000</td><td>248.000</td><td>9.068.000</td><td>309.235</td><td>9.377.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">5</td><td>30 Sep 2023</td><td>310.000</td><td>40.000</td><td>350.000</td><td>8.758.000</td><td>269.235</td><td>9.027.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">6</td><td>31 Okt 2023</td><td>281.000</td><td>19.000</td><td>300.000</td><td>8.477.000</td><td>250.235</td><td>8.727.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">7</td><td>29 Apr 2024</td><td>398.000</td><td>100.000</td><td>498.000</td><td>8.079.000</td><td>150.235</td><td>8.229.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">8</td><td>27 Agu 2024</td><td>448.000</td><td>52.000</td><td>500.000</td><td>7.631.000</td><td>98.235</td><td>7.729.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">9</td><td>30 Okt 2024</td><td>478.000</td><td>22.000</td><td>500.000</td><td>7.153.000</td><td>76.235</td><td>7.229.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">10</td><td>24 Mei 2025</td><td>243.000</td><td>56.000</td><td>299.000</td><td>6.910.000</td><td>20.235</td><td>6.930.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">11</td><td>30 Jun 2025</td><td>193.000</td><td>5.000</td><td>198.000</td><td>6.717.000</td><td>15.235</td><td>6.732.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">12</td><td>26 Jul 2025</td><td>194.000</td><td>4.000</td><td>198.000</td><td>6.523.000</td><td>11.235</td><td>6.534.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">13</td><td>27 Agu 2025</td><td>194.000</td><td>4.000</td><td>198.000</td><td>6.329.000</td><td>7.235</td><td>6.336.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">14</td><td>30 Sep 2025</td><td>246.000</td><td>2.000</td><td>248.000</td><td>6.083.000</td><td>5.235</td><td>6.088.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">15</td><td>31 Okt 2025</td><td>195.000</td><td>3.000</td><td>198.000</td><td>5.888.000</td><td>2.235</td><td>5.890.235</td><td>POSPAY</td></tr>
-    <tr><td class="center">16</td><td>23 Nov 2025</td><td>197.000</td><td>1.000</td><td>198.000</td><td>5.691.000</td><td>1.235</td><td>5.692.235</td><td>POSPAY</td></tr>
+        <br />
 
-    <tr class="bold">
-        <td colspan="2" class="center">Jumlah</td>
-        <td>4.309.000</td>
-        <td>468.000</td>
-        <td>4.777.000</td>
-        <td>5.691.000</td>
-        <td>1.235</td>
-        <td>5.692.235</td>
-        <td></td>
-    </tr>
-</table>
+        <table>
+            <thead>
+                <tr class="center bold">
+                    <th class="w-no" rowspan="2">Ang.<br />ke</th>
+                    <th class="w-date" rowspan="2">Angsuran<br />Bulan</th>
+                    <th colspan="3">Penerimaan Angsuran</th>
+                    <th colspan="3">Sisa Pinjaman</th>
+                    <th rowspan="2">Keterangan</th>
+                </tr>
+                <tr class="center bold">
+                    <th>Pokok</th>
+                    <th>Jasa</th>
+                    <th>Jumlah</th>
+                    <th>Pokok</th>
+                    <th>Jasa</th>
+                    <th>Jumlah</th>
+                </tr>
+                <tr class="center small" style="font-size: 8pt">
+                    <td>(1)</td>
+                    <td>(2)</td>
+                    <td>(3)</td>
+                    <td>(4)</td>
+                    <td>(5)</td>
+                    <td>(6)</td>
+                    <td>(7)</td>
+                    <td>(8)</td>
+                    <td>(9)</td>
+                </tr>
+            </thead>
 
+            <tbody>
+                @php
+                    $total_pokok = 0;
+                    $total_jasa = 0;
+                    $total_jumlah = 0;
 
-<!-- ================= TANDA TANGAN ================= -->
-<table class="no-border" style="margin-top:35px;">
-    <tr>
-        <td width="60%"></td>
-        <td width="40%" class="center">
-            Asman/Manajer PKBLD<br>
-            Bandung<br><br><br><br><br>
-            <strong>Dody Frisenaldy</strong><br>
-            Nippos 974358368
-        </td>
-    </tr>
-</table>
+                    // Inisialisasi Sisa Pinjaman Awal (Estimasi)
+                    $sisa_pokok = $h->jumlah_realisasi;
+                    // Sisa jasa sebaiknya diambil dari logic database yang benar,
+                    // disini estimasi pengurangan manual untuk display loop
+                    $sisa_jasa = $jasa_pinjaman ?? 0;
+                @endphp
 
-<div class="small">17 Des 2025 13.53</div>
+                @foreach ($riwayat as $row)
+                    @php
+                        // Akumulasi Total
+                        // Note: Asumsi kolom angsuran_pokok & angsuran_jasa ada di DB,
+                        // Jika di DB hanya ada 'angsuran_bulan' (total), perlu dipecah logicnya.
+                        // Di sini saya pakai angsuran_pokok/jasa sesuai asumsi kolom umum.
+                        $bayar_pokok = $row->angsuran_bsu;
+                        $bayar_jasa = $row->angsuran_jasa;
+                        $bayar_total = $bayar_pokok + $bayar_jasa;
 
-</div>
+                        $total_pokok += $bayar_pokok;
+                        $total_jasa += $bayar_jasa;
+                        $total_jumlah += $bayar_total;
+
+                        // Hitung Sisa (Untuk Display Saja, idealnya ambil dari kolom 'outstanding' di DB)
+                        // Namun 'outstanding' di DB biasanya hanya sisa pokok.
+                        $sisa_pokok_display = $row->outstanding;
+                        // Sisa jasa dan total sisa pinjaman butuh data lebih detail di DB
+                        $sisa_jasa_display = 0; // Placeholder
+                        $sisa_total_display = $sisa_pokok_display + $sisa_jasa_display;
+                    @endphp
+                    <tr>
+                        <td class="center">{{ $row->angsuran_ke }}</td>
+                        <td class="center">{{ $row->angsuran_bulan }}</td>
+                        {{-- Penerimaan Angsuran --}}
+                        <td class="right">{{ number_format($bayar_pokok, 0, ',', '.') }}</td>
+                        <td class="right">{{ number_format($bayar_jasa, 0, ',', '.') }}</td>
+                        <td class="right">{{ number_format($bayar_total, 0, ',', '.') }}</td>
+                        <td class="right">{{ number_format($sisa_pokok_display, 0, ',', '.') }}</td>
+                        <td class="right">{{ number_format($sisa_jasa_display, 0, ',', '.') }}</td>
+                        <td class="right">{{ number_format($sisa_total_display, 0, ',', '.') }}</td>
+                        <td class="center">POSPAY</td>
+                    </tr>
+                @endforeach
+
+                <tr style="font-weight: bold; background-color: #f9f9f9">
+                    <td colspan="2" class="center">Jumlah</td>
+                    <td class="right">{{ number_format($total_pokok, 0, ',', '.') }}</td>
+                    <td class="right">{{ number_format($total_jasa, 0, ',', '.') }}</td>
+                    <td class="right">{{ number_format($total_jumlah, 0, ',', '.') }}</td>
+                    <td class="right"></td>
+                    <td class="right"></td>
+                    <td class="right"></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="no-border" style="margin-top: 35px; margin-bottom: 50px">
+            <tr>
+                <td width="60%"></td>
+                <td width="40%" class="center">
+                    Asman/Manajer PKBLD<br />
+                    {{ $h->tjsld }}<br /><br /><br /><br /><br />
+                    <strong><u>Dody Frisenaldy</u></strong><br />
+                    Nippos 974358368
+                </td>
+            </tr>
+        </table>
+
+        <div class="footer">Dicetak pada: {{ $cetak_date }}</div>
+    </div>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
