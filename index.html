@@ -78,16 +78,28 @@ table {
 
 /* ===== TTD ===== */
 .ttd {
-    width: 100%;
     margin-top: 35mm;
 }
 
-.ttd td {
-    vertical-align: top;
+.ttd-wrap {
+    display: flex;
+    justify-content: space-between;
 }
 
-.ttd-title {
-    margin-bottom: 25mm; /* RUANG KHUSUS TANDA TANGAN */
+.ttd-block {
+    width: 45%;
+    text-align: center;
+}
+
+.ttd-space {
+    height: 25mm; /* ruang tanda tangan */
+}
+
+.ttd-line {
+    display: inline-block;
+    width: 70%;
+    border-bottom: 1px solid #000;
+    margin-bottom: 2px;
 }
 
 /* ===== FOOTER ===== */
@@ -210,26 +222,28 @@ table {
 </table>
 
 <!-- ===== TTD (FIXED) ===== -->
-<table class="ttd">
-<tr>
-    <td width="50%" class="text-center">
-        <div class="ttd-title">
-            Ka. Regional / Kepala Kantor
-        </div>
-        Nama : ____________________<br>
-        Nippos :
-    </td>
+<div class="ttd">
+    <div class="ttd-wrap">
 
-    <td width="50%" class="text-center">
-        Banda Aceh, 24 Desember 2025<br>
-        <div class="ttd-title">
-            Asman / Manajer PKBLD
+        <!-- KIRI -->
+        <div class="ttd-block">
+            Ka. Regional / Kepala Kantor,
+            <div class="ttd-space"></div>
+            Nama : <span class="ttd-line"></span><br>
+            Nippos :
         </div>
-        Nama : Novi Widiastuti<br>
-        Nippos : 984391897
-    </td>
-</tr>
-</table>
+
+        <!-- KANAN -->
+        <div class="ttd-block">
+            Banda Aceh, 24 Desember 2025<br>
+            Asman / Manajer PKBLD
+            <div class="ttd-space"></div>
+            Nama : Novi Widiastuti<br>
+            Nippos : 984391897
+        </div>
+
+    </div>
+</div>
 
 <!-- ===== FOOTER ===== -->
 <div class="footer-time">
@@ -238,3 +252,4 @@ table {
 
 </body>
 </html>
+
