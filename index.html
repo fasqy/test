@@ -5,11 +5,13 @@
 <title>KUG-4</title>
 
 <style>
+/* ===== PAGE SETTING ===== */
 @page {
     size: A4;
     margin: 20mm;
 }
 
+/* ===== GLOBAL ===== */
 body {
     font-family: "Times New Roman", serif;
     font-size: 11px;
@@ -20,6 +22,7 @@ table {
     border-collapse: collapse;
 }
 
+/* ===== HEADER ===== */
 .header {
     width: 100%;
 }
@@ -42,6 +45,7 @@ table {
     font-weight: bold;
 }
 
+/* ===== INFO ===== */
 .info {
     margin-top: 6px;
 }
@@ -50,6 +54,7 @@ table {
     padding: 1px 4px;
 }
 
+/* ===== DATA TABLE ===== */
 .data {
     width: 100%;
     margin-top: 6px;
@@ -64,31 +69,36 @@ table {
 
 .data th {
     text-align: center;
+    font-weight: bold;
 }
 
 .text-left { text-align: left; }
-.text-right { text-align: right; }
 .text-center { text-align: center; }
+.text-right { text-align: right; }
 
+/* ===== TTD ===== */
 .ttd {
     width: 100%;
-    margin-top: 25px;
+    margin-top: 35mm; /* JARAK OTOMATIS DARI TABEL */
 }
 
 .ttd td {
     vertical-align: top;
 }
 
+/* ===== FOOTER ===== */
 .footer-time {
+    position: fixed;
+    bottom: 10mm;
+    left: 20mm;
     font-size: 9px;
-    margin-top: 15px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- ===== HEADER ===== -->
 <table class="header">
 <tr>
     <td width="15%">
@@ -103,14 +113,14 @@ table {
 </tr>
 </table>
 
-<!-- INFO -->
+<!-- ===== INFO ===== -->
 <table class="info">
 <tr><td>Tahun</td><td>:</td><td>2025</td></tr>
 <tr><td>Bulan</td><td>:</td><td>Desember</td></tr>
 <tr><td>Unit PKBLD</td><td>:</td><td>Banda Aceh</td></tr>
 </table>
 
-<!-- DATA -->
+<!-- ===== DATA ===== -->
 <table class="data">
 <thead>
 <tr>
@@ -126,101 +136,95 @@ table {
 </thead>
 <tbody>
 <tr>
-<td class="text-center">1</td>
-<td>19 Desember 2025</td>
-<td>01.01508.22</td>
-<td>M RAHMADHANA</td>
-<td class="text-right">728.000</td>
-<td class="text-right">0</td>
-<td class="text-right">728.000</td>
-<td>Desember</td>
+    <td class="text-center">1</td>
+    <td>19 Desember 2025</td>
+    <td>01.01508.22</td>
+    <td class="text-left">M RAHMADHANA</td>
+    <td class="text-right">728.000</td>
+    <td class="text-right">0</td>
+    <td class="text-right">728.000</td>
+    <td>Desember</td>
 </tr>
-
 <tr>
-<td class="text-center">2</td>
-<td>19 Desember 2025</td>
-<td>01.01522.22</td>
-<td>SALMAN AL FARISY</td>
-<td class="text-right">728.000</td>
-<td class="text-right">0</td>
-<td class="text-right">728.000</td>
-<td>Desember</td>
+    <td class="text-center">2</td>
+    <td>19 Desember 2025</td>
+    <td>01.01522.22</td>
+    <td class="text-left">SALMAN AL FARISY</td>
+    <td class="text-right">728.000</td>
+    <td class="text-right">0</td>
+    <td class="text-right">728.000</td>
+    <td>Desember</td>
 </tr>
-
 <tr>
-<td class="text-center">3</td>
-<td>19 Desember 2025</td>
-<td>01.01523.22</td>
-<td>FACHRI AL RADHI</td>
-<td class="text-right">728.000</td>
-<td class="text-right">0</td>
-<td class="text-right">728.000</td>
-<td>Desember</td>
+    <td class="text-center">3</td>
+    <td>19 Desember 2025</td>
+    <td>01.01523.22</td>
+    <td class="text-left">FACHRI AL RADHI</td>
+    <td class="text-right">728.000</td>
+    <td class="text-right">0</td>
+    <td class="text-right">728.000</td>
+    <td>Desember</td>
 </tr>
-
 <tr>
-<td class="text-center">4</td>
-<td>19 Desember 2025</td>
-<td>01.01518.22</td>
-<td>JUMAR</td>
-<td class="text-right">1.500.001</td>
-<td class="text-right">0</td>
-<td class="text-right">1.500.001</td>
-<td>Desember</td>
+    <td class="text-center">4</td>
+    <td>19 Desember 2025</td>
+    <td>01.01518.22</td>
+    <td class="text-left">JUMAR</td>
+    <td class="text-right">1.500.001</td>
+    <td class="text-right">0</td>
+    <td class="text-right">1.500.001</td>
+    <td>Desember</td>
 </tr>
-
 <tr>
-<td class="text-center">5</td>
-<td>19 Desember 2025</td>
-<td>01.01502.22</td>
-<td>HUMAIRA</td>
-<td class="text-right">0</td>
-<td class="text-right">498.000</td>
-<td class="text-right">498.000</td>
-<td>Desember</td>
+    <td class="text-center">5</td>
+    <td>19 Desember 2025</td>
+    <td>01.01502.22</td>
+    <td class="text-left">HUMAIRA</td>
+    <td class="text-right">0</td>
+    <td class="text-right">498.000</td>
+    <td class="text-right">498.000</td>
+    <td>Desember</td>
 </tr>
-
 <tr>
-<td class="text-center">6</td>
-<td>22 Desember 2025</td>
-<td>01.01491.22</td>
-<td>RUSDI</td>
-<td class="text-right">303.000</td>
-<td class="text-right">0</td>
-<td class="text-right">303.000</td>
-<td>Desember</td>
+    <td class="text-center">6</td>
+    <td>22 Desember 2025</td>
+    <td>01.01491.22</td>
+    <td class="text-left">RUSDI</td>
+    <td class="text-right">303.000</td>
+    <td class="text-right">0</td>
+    <td class="text-right">303.000</td>
+    <td>Desember</td>
 </tr>
-
 <tr>
-<td colspan="4" class="text-center"><b>Jumlah</b></td>
-<td class="text-right"><b>3.987.001,00</b></td>
-<td class="text-right"><b>498.000,00</b></td>
-<td class="text-right"><b>4.485.001,00</b></td>
-<td></td>
+    <td colspan="4" class="text-center"><b>Jumlah</b></td>
+    <td class="text-right"><b>3.987.001,00</b></td>
+    <td class="text-right"><b>498.000,00</b></td>
+    <td class="text-right"><b>4.485.001,00</b></td>
+    <td></td>
 </tr>
 </tbody>
 </table>
 
-<!-- TTD -->
+<!-- ===== TTD ===== -->
 <table class="ttd">
 <tr>
 <td width="50%">
-Ka. Regional / Kepala Kantor<br><br><br>
-Nama : ___________<br>
-Nippos :
+    Ka. Regional / Kepala Kantor<br><br><br>
+    Nama : ____________________<br>
+    Nippos :
 </td>
-
 <td width="50%" style="text-align:right;">
-Banda Aceh, 24 Desember 2025<br>
-Asman / Manajer PKBLD<br><br>
-Nama : Novi Widiastuti<br>
-Nippos : 984391897
+    Banda Aceh, 24 Desember 2025<br>
+    Asman / Manajer PKBLD<br><br>
+    Nama : Novi Widiastuti<br>
+    Nippos : 984391897
 </td>
 </tr>
 </table>
 
+<!-- ===== FOOTER ===== -->
 <div class="footer-time">
-Dec 24, 2025 2:07 PM
+    Dec 24, 2025 2:07 PM
 </div>
 
 </body>
