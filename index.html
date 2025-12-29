@@ -79,11 +79,15 @@ table {
 /* ===== TTD ===== */
 .ttd {
     width: 100%;
-    margin-top: 35mm; /* JARAK OTOMATIS DARI TABEL */
+    margin-top: 35mm;
 }
 
 .ttd td {
     vertical-align: top;
+}
+
+.ttd-title {
+    margin-bottom: 25mm; /* RUANG KHUSUS TANDA TANGAN */
 }
 
 /* ===== FOOTER ===== */
@@ -205,20 +209,25 @@ table {
 </tbody>
 </table>
 
-<!-- ===== TTD ===== -->
+<!-- ===== TTD (FIXED) ===== -->
 <table class="ttd">
 <tr>
-<td class="text-center" width="50%">
-    Ka. Regional / Kepala Kantor<br><br><br><br><br><br>
-    Nama : ____________________<br>
-    Nippos :
-</td>
-<td class="text-center" width="50%" style="text-align:right;">
-    Banda Aceh, 24 Desember 2025<br>
-    Asman / Manajer PKBLD<br><br><br><br><br>
-    Nama : Novi Widiastuti<br>
-    Nippos : 984391897
-</td>
+    <td width="50%" class="text-center">
+        <div class="ttd-title">
+            Ka. Regional / Kepala Kantor
+        </div>
+        Nama : ____________________<br>
+        Nippos :
+    </td>
+
+    <td width="50%" class="text-center">
+        Banda Aceh, 24 Desember 2025<br>
+        <div class="ttd-title">
+            Asman / Manajer PKBLD
+        </div>
+        Nama : Novi Widiastuti<br>
+        Nippos : 984391897
+    </td>
 </tr>
 </table>
 
@@ -229,6 +238,3 @@ table {
 
 </body>
 </html>
-
-
-
