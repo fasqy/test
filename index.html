@@ -5,173 +5,223 @@
 <title>KUG-4</title>
 
 <style>
-    body {
-        font-family: "Times New Roman", serif;
-        font-size: 12px;
-        margin: 25mm 20mm;
-        color: #000;
-    }
+@page {
+    size: A4;
+    margin: 20mm;
+}
 
-    .header {
-        width: 100%;
-        display: table;
-        margin-bottom: 10px;
-    }
+body {
+    font-family: "Times New Roman", serif;
+    font-size: 11px;
+    color: #000;
+}
 
-    .header-left {
-        display: table-cell;
-        width: 20%;
-        vertical-align: top;
-    }
+table {
+    border-collapse: collapse;
+}
 
-    .header-center {
-        display: table-cell;
-        width: 60%;
-        text-align: center;
-        vertical-align: top;
-    }
+.header {
+    width: 100%;
+}
 
-    .header-right {
-        display: table-cell;
-        width: 20%;
-        text-align: right;
-        vertical-align: top;
-        font-weight: bold;
-    }
+.header td {
+    vertical-align: top;
+}
 
-    .title {
-        font-weight: bold;
-        text-transform: uppercase;
-    }
+.logo {
+    width: 80px;
+}
 
-    .info {
-        margin-top: 5px;
-        margin-bottom: 10px;
-    }
+.kug {
+    text-align: right;
+    font-weight: bold;
+}
 
-    .info table td {
-        padding: 1px 4px;
-    }
+.title {
+    text-align: center;
+    font-weight: bold;
+}
 
-    table.data {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 5px;
-    }
+.info {
+    margin-top: 6px;
+}
 
-    table.data th,
-    table.data td {
-        border: 1px solid #000;
-        padding: 4px;
-        text-align: center;
-    }
+.info td {
+    padding: 1px 4px;
+}
 
-    table.data th {
-        font-weight: bold;
-    }
+.data {
+    width: 100%;
+    margin-top: 6px;
+    table-layout: fixed;
+}
 
-    .text-left {
-        text-align: left;
-    }
+.data th,
+.data td {
+    border: 1px solid #000;
+    padding: 3px;
+}
 
-    .text-right {
-        text-align: right;
-    }
+.data th {
+    text-align: center;
+}
 
-    .total {
-        font-weight: bold;
-    }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
 
-    .footer {
-        width: 100%;
-        margin-top: 20px;
-        display: table;
-    }
+.ttd {
+    width: 100%;
+    margin-top: 25px;
+}
 
-    .footer-left,
-    .footer-right {
-        display: table-cell;
-        width: 50%;
-        vertical-align: top;
-    }
+.ttd td {
+    vertical-align: top;
+}
 
-    .footer-right {
-        text-align: right;
-    }
-
-    .signature {
-        margin-top: 35px;
-    }
-
-    @media print {
-        body {
-            margin: 20mm;
-        }
-    }
+.footer-time {
+    font-size: 9px;
+    margin-top: 15px;
+}
 </style>
 </head>
 
 <body>
 
 <!-- HEADER -->
-<div class="header">
-    <div class="header-left">
-        <img src="logo-pos.png" width="90">
-    </div>
-
-    <div class="header-center">
-        <div class="title">DAFTAR PENERIMAAN ANGSURAN DARI MITRA BINAAN</div>
-    </div>
-
-    <div class="header-right">
-        KUG-4
-    </div>
-</div>
+<table class="header">
+<tr>
+    <td width="15%">
+        <img src="logo-pos.png" class="logo">
+    </td>
+    <td width="70%" class="title">
+        DAFTAR PENERIMAAN ANGSURAN DARI MITRA BINAAN
+    </td>
+    <td width="15%" class="kug">
+        Kug-4
+    </td>
+</tr>
+</table>
 
 <!-- INFO -->
-<div class="info">
-    <table>
-        <tr>
-            <td>Tahun</td><td>:</td><td>2025</td>
-        </tr>
-        <tr>
-            <td>Bulan</td><td>:</td><td>Desember</td>
-        </tr>
-        <tr>
-            <td>Unit PKBLD</td><td>:</td><td>Banda Aceh</td>
-        </tr>
-    </table>
+<table class="info">
+<tr><td>Tahun</td><td>:</td><td>2025</td></tr>
+<tr><td>Bulan</td><td>:</td><td>Desember</td></tr>
+<tr><td>Unit PKBLD</td><td>:</td><td>Banda Aceh</td></tr>
+</table>
+
+<!-- DATA -->
+<table class="data">
+<thead>
+<tr>
+    <th width="4%">No</th>
+    <th width="13%">Tanggal</th>
+    <th width="13%">Kode Mitra</th>
+    <th width="22%">Nama MB</th>
+    <th width="12%">Pokok</th>
+    <th width="10%">Jasa</th>
+    <th width="12%">Jumlah</th>
+    <th width="14%">Keterangan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-center">1</td>
+<td>19 Desember 2025</td>
+<td>01.01508.22</td>
+<td>M RAHMADHANA</td>
+<td class="text-right">728.000</td>
+<td class="text-right">0</td>
+<td class="text-right">728.000</td>
+<td>Desember</td>
+</tr>
+
+<tr>
+<td class="text-center">2</td>
+<td>19 Desember 2025</td>
+<td>01.01522.22</td>
+<td>SALMAN AL FARISY</td>
+<td class="text-right">728.000</td>
+<td class="text-right">0</td>
+<td class="text-right">728.000</td>
+<td>Desember</td>
+</tr>
+
+<tr>
+<td class="text-center">3</td>
+<td>19 Desember 2025</td>
+<td>01.01523.22</td>
+<td>FACHRI AL RADHI</td>
+<td class="text-right">728.000</td>
+<td class="text-right">0</td>
+<td class="text-right">728.000</td>
+<td>Desember</td>
+</tr>
+
+<tr>
+<td class="text-center">4</td>
+<td>19 Desember 2025</td>
+<td>01.01518.22</td>
+<td>JUMAR</td>
+<td class="text-right">1.500.001</td>
+<td class="text-right">0</td>
+<td class="text-right">1.500.001</td>
+<td>Desember</td>
+</tr>
+
+<tr>
+<td class="text-center">5</td>
+<td>19 Desember 2025</td>
+<td>01.01502.22</td>
+<td>HUMAIRA</td>
+<td class="text-right">0</td>
+<td class="text-right">498.000</td>
+<td class="text-right">498.000</td>
+<td>Desember</td>
+</tr>
+
+<tr>
+<td class="text-center">6</td>
+<td>22 Desember 2025</td>
+<td>01.01491.22</td>
+<td>RUSDI</td>
+<td class="text-right">303.000</td>
+<td class="text-right">0</td>
+<td class="text-right">303.000</td>
+<td>Desember</td>
+</tr>
+
+<tr>
+<td colspan="4" class="text-center"><b>Jumlah</b></td>
+<td class="text-right"><b>3.987.001,00</b></td>
+<td class="text-right"><b>498.000,00</b></td>
+<td class="text-right"><b>4.485.001,00</b></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<!-- TTD -->
+<table class="ttd">
+<tr>
+<td width="50%">
+Ka. Regional / Kepala Kantor<br><br><br>
+Nama : ___________<br>
+Nippos :
+</td>
+
+<td width="50%" style="text-align:right;">
+Banda Aceh, 24 Desember 2025<br>
+Asman / Manajer PKBLD<br><br>
+Nama : Novi Widiastuti<br>
+Nippos : 984391897
+</td>
+</tr>
+</table>
+
+<div class="footer-time">
+Dec 24, 2025 2:07 PM
 </div>
 
-<!-- TABLE -->
-<table class="data">
-    <tr>
-        <th>No</th>
-        <th>Tanggal</th>
-        <th>Kode Mitra</th>
-        <th>Nama MB</th>
-        <th>Pokok</th>
-        <th>Jasa</th>
-        <th>Jumlah</th>
-        <th>Keterangan</th>
-    </tr>
-
-    <tr>
-        <td>1</td>
-        <td>19 Desember 2025</td>
-        <td>01.01508.22</td>
-        <td class="text-left">M RAHMADHANA</td>
-        <td class="text-right">728.000</td>
-        <td class="text-right">0</td>
-        <td class="text-right">728.000</td>
-        <td>Desember</td>
-    </tr>
-
-    <tr>
-        <td>2</td>
-        <td>19 Desember 2025</td>
-        <td>01.01522.22</td>
-        <td class="text-left">SALMAN AL FARISY</td>
-        <td class="text-right">728.000</td>
-        <td class="text-right">0</td>
-        <td cla
+</body>
+</html>
