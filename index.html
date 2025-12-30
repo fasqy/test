@@ -1,267 +1,1794 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>KUG-4</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard PUMK - PT Pos Indonesia</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
 
-<style>
-/* ===== PAGE SETTING ===== */
-@page {
-    size: A4;
-    margin: 20mm;
-}
+        :root {
+            --pos-red: #E11B22;
+            --pos-red-dark: #C0171C;
+            --pos-red-light: #FF3B41;
+            --pos-gold: #FFD700;
+            --pos-gold-dark: #E6C300;
+            --pos-blue: #0056A6;
+            --pos-blue-dark: #004080;
+            --dark-bg: #0A0A1A;
+            --card-bg: rgba(15, 15, 30, 0.9);
+            --text-light: #FFFFFF;
+            --text-gray: #A0AEC0;
+            --success: #00C853;
+            --warning: #FFB300;
+            --danger: #FF5252;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
 
-/* ===== GLOBAL ===== */
-body {
-    font-family: "Times New Roman", serif;
-    font-size: 11px;
-    color: #000;
-}
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1A1A2E 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
 
-table {
-    border-collapse: collapse;
-}
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(225, 27, 34, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 86, 166, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 30%);
+        }
 
-/* ===== HEADER ===== */
-.header {
-    width: 100%;
-}
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
 
-.header td {
-    vertical-align: top;
-}
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--pos-red);
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
 
-.logo {
-    width: 80px;
-}
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 25s;
+            background: var(--pos-red);
+        }
 
-.kug {
-    text-align: right;
-    font-weight: bold;
-}
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-duration: 30s;
+            animation-direction: reverse;
+            background: var(--pos-blue);
+        }
 
-.title {
-    text-align: center;
-    font-weight: bold;
-}
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 10%;
+            left: 20%;
+            animation-duration: 35s;
+            background: var(--pos-gold);
+        }
 
-/* ===== INFO ===== */
-.info {
-    margin-top: 6px;
-}
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, 50px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
 
-.info td {
-    padding: 1px 4px;
-}
+        /* Header */
+        .header {
+            background: rgba(10, 10, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--pos-red);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
 
-/* ===== DATA TABLE ===== */
-.data {
-    width: 100%;
-    margin-top: 6px;
-    table-layout: fixed;
-}
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.data th,
-.data td {
-    border: 1px solid #000;
-    padding: 3px;
-}
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--pos-red), var(--pos-red-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 10px 20px rgba(225, 27, 34, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
 
-.data th {
-    text-align: center;
-    font-weight: bold;
-}
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--pos-gold);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
 
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
+        .logo-text h1 {
+            font-size: 24px;
+            background: linear-gradient(90deg, var(--text-light), var(--pos-red-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
 
-/* ===== TTD ===== */
-.ttd {
-    margin-top: 35mm;
-}
+        .logo-text h2 {
+            font-size: 14px;
+            color: var(--text-gray);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
 
-.ttd-wrap {
-    display: flex;
-    justify-content: space-between;
-}
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-.ttd-block {
-    width: 45%;
-    text-align: center;
-}
+        .time-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.ttd-space {
-    height: 25mm; /* ruang tanda tangan */
-}
+        .time-display i {
+            color: var(--pos-red-light);
+        }
 
-.ttd-line {
-    display: inline-block;
-    width: 40mm;       /* PANJANG REALISTIS DOKUMEN */
-    border-bottom: 1px solid #000;
-    vertical-align: bottom;
-}
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
 
+        .user-profile:hover {
+            background: rgba(225, 27, 34, 0.2);
+        }
 
-/* ===== FOOTER ===== */
-.footer-time {
-    position: fixed;
-    bottom: 10mm;
-    left: 20mm;
-    font-size: 9px;
-}
-</style>
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--pos-red), var(--pos-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 15, 30, 0.95);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--pos-red), var(--pos-gold));
+        }
+
+        .nav-section {
+            margin-bottom: 40px;
+        }
+
+        .nav-title {
+            color: var(--pos-gold);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            margin: 8px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--pos-red);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .nav-item:hover::before,
+        .nav-item.active::before {
+            transform: scaleY(1);
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(225, 27, 34, 0.1);
+            color: var(--text-light);
+            padding-left: 24px;
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--pos-red);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .quick-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .quick-stat:hover {
+            background: rgba(225, 27, 34, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .quick-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--pos-red-light);
+            margin: 5px 0;
+        }
+
+        .quick-stat-label {
+            font-size: 11px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--pos-red), var(--pos-blue));
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .welcome-text h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-text p {
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--pos-red);
+            box-shadow: 0 30px 60px rgba(225, 27, 34, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--pos-red);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-btn:hover {
+            background: var(--pos-red);
+            transform: rotate(15deg);
+        }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        /* Progress Bars */
+        .progress-item {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-label {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: var(--pos-red-light);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pos-red), var(--pos-gold));
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        /* Data Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 15px;
+            background: rgba(225, 27, 34, 0.1);
+            color: var(--pos-gold);
+            font-weight: 600;
+            border-bottom: 2px solid var(--pos-red);
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-table tr:hover {
+            background: rgba(225, 27, 34, 0.05);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(0, 200, 83, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 179, 0, 0.2);
+            color: var(--warning);
+        }
+
+        /* Notification Bell */
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--pos-red);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border: 2px solid var(--pos-red);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--pos-red);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 10px;
+            }
+            
+            .nav-item span,
+            .nav-badge,
+            .nav-title,
+            .quick-stats {
+                display: none;
+            }
+            
+            .nav-item {
+                justify-content: center;
+                padding: 15px 10px;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 15px 20px;
+            }
+            
+            .logo-text h1 {
+                font-size: 18px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--pos-red);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--pos-red-dark);
+        }
+    </style>
 </head>
-
 <body>
-
-<!-- ===== HEADER ===== -->
-<table class="header">
-<tr>
-    <td width="15%">
-        <img src="logo-pos.png" class="logo">
-    </td>
-    <td width="70%" class="title">
-        DAFTAR PENERIMAAN ANGSURAN DARI MITRA BINAAN
-    </td>
-    <td width="15%" class="kug">
-        Kug-4
-    </td>
-</tr>
-</table>
-
-<!-- ===== INFO ===== -->
-<table class="info">
-<tr><td>Tahun</td><td>:</td><td>2025</td></tr>
-<tr><td>Bulan</td><td>:</td><td>Desember</td></tr>
-<tr><td>Unit PKBLD</td><td>:</td><td>Banda Aceh</td></tr>
-</table>
-
-<!-- ===== DATA ===== -->
-<table class="data">
-<thead>
-<tr>
-    <th width="4%">No</th>
-    <th width="13%">Tanggal</th>
-    <th width="13%">Kode Mitra</th>
-    <th width="22%">Nama MB</th>
-    <th width="12%">Pokok</th>
-    <th width="10%">Jasa</th>
-    <th width="12%">Jumlah</th>
-    <th width="14%">Angsuran untuk Bulan</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td class="text-center">1</td>
-    <td class="text-center">19 Desember 2025</td>
-    <td class="text-center">01.01508.22</td>
-    <td class="text-left">M RAHMADHANA</td>
-    <td class="text-right">728.000</td>
-    <td class="text-right">0</td>
-    <td class="text-right">728.000</td>
-    <td class="text-center">Desember</td>
-</tr>
-<tr>
-    <td class="text-center">2</td>
-    <td class="text-center">19 Desember 2025</td>
-    <td class="text-center">01.01522.22</td>
-    <td class="text-left">SALMAN AL FARISY</td>
-    <td class="text-right">728.000</td>
-    <td class="text-right">0</td>
-    <td class="text-right">728.000</td>
-    <td class="text-center">Desember</td>
-</tr>
-<tr>
-    <td class="text-center">3</td>
-    <td class="text-center">19 Desember 2025</td>
-    <td class="text-center">01.01523.22</td>
-    <td class="text-left">FACHRI AL RADHI</td>
-    <td class="text-right">728.000</td>
-    <td class="text-right">0</td>
-    <td class="text-right">728.000</td>
-    <td class="text-center">Desember</td>
-</tr>
-<tr>
-    <td class="text-center">4</td>
-    <td class="text-center">19 Desember 2025</td>
-    <td class="text-center">01.01518.22</td>
-    <td class="text-left">JUMAR</td>
-    <td class="text-right">1.500.001</td>
-    <td class="text-right">0</td>
-    <td class="text-right">1.500.001</td>
-    <td class="text-center">Desember</td>
-</tr>
-<tr>
-    <td class="text-center">5</td>
-    <td class="text-center">19 Desember 2025</td>
-    <td class="text-center">01.01502.22</td>
-    <td class="text-left">HUMAIRA</td>
-    <td class="text-right">0</td>
-    <td class="text-right">498.000</td>
-    <td class="text-right">498.000</td>
-    <td class="text-center">Desember</td>
-</tr>
-<tr>
-    <td class="text-center">6</td>
-    <td class="text-center">22 Desember 2025</td>
-    <td class="text-center">01.01491.22</td>
-    <td class="text-left">RUSDI</td>
-    <td class="text-right">303.000</td>
-    <td class="text-right">0</td>
-    <td class="text-right">303.000</td>
-    <td class="text-center">Desember</td>
-</tr>
-<tr>
-    <td colspan="4" class="text-center"><b>Jumlah</b></td>
-    <td class="text-right"><b>3.987.001,00</b></td>
-    <td class="text-right"><b>498.000,00</b></td>
-    <td class="text-right"><b>4.485.001,00</b></td>
-    <td></td>
-</tr>
-</tbody>
-</table>
-
-<!-- ===== TTD (FIXED) ===== -->
-<div class="ttd">
-    <div class="ttd-wrap">
-
-        <!-- KIRI -->
-       <div class="ttd-row">
-    <div class="ttd-label">Nama :</div>
-    <div class="ttd-line"></div>
-</div>
-
-<div class="ttd-row">
-    <div class="ttd-label">Nippos :</div>
-    <div class="ttd-line"></div>
-</div>
-
-
-        <!-- KANAN -->
-        <div class="ttd-block">
-            Banda Aceh, 24 Desember 2025<br>
-            Asman / Manajer PKBLD
-            <div class="ttd-space"></div>
-            Nama : Novi Widiastuti<br>
-            Nippos : 984391897
-        </div>
-
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
     </div>
-</div>
 
-<!-- ===== FOOTER ===== -->
-<div class="footer-time">
-    Dec 24, 2025 2:07 PM
-</div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-mail-bulk"></i>
+            </div>
+            <div class="logo-text">
+                <h1>PT POS INDONESIA</h1>
+                <h2>DASHBOARD PUMK - LOGISTIK INDONESIA</h2>
+            </div>
+        </div>
+        
+        <div class="header-controls">
+            <div class="time-display">
+                <i class="far fa-clock"></i>
+                <span id="current-time">Loading...</span>
+            </div>
+            
+            <div class="notification-bell" onclick="showNotifications()">
+                <i class="far fa-bell fa-lg"></i>
+                <span class="notification-count" id="notification-count">3</span>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar">AD</div>
+                <div>
+                    <div style="font-weight: 600;">Admin Dashboard</div>
+                    <div style="font-size: 12px; color: var(--text-gray);">Super Admin</div>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="nav-section">
+                <div class="nav-title">Main Menu</div>
+                <div class="nav-item active" onclick="setActiveTab('dashboard')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                    <span class="nav-badge">Live</span>
+                </div>
+                <div class="nav-item" onclick="setActiveTab('mitra')">
+                    <i class="fas fa-users"></i>
+                    <span>Data Mitra</span>
+                    <span class="nav-badge">2</span>
+                </div>
+                <div class="nav-item" onclick="setActiveTab('finansial')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Finansial</span>
+                </div>
+                <div class="nav-item" onclick="setActiveTab('laporan')">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Laporan</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Monitoring</div>
+                <div class="nav-item" onclick="setActiveTab('real-time')">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span>Real-time</span>
+                    <span class="nav-badge">New</span>
+                </div>
+                <div class="nav-item" onclick="setActiveTab('alert')">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Alert System</span>
+                    <span class="nav-badge" id="alert-count">5</span>
+                </div>
+                <div class="nav-item" onclick="setActiveTab('map')">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Geographic Map</span>
+                </div>
+            </div>
+            
+            <div class="quick-stats">
+                <div class="quick-stat">
+                    <div class="quick-stat-value" id="total-transaksi">1,245</div>
+                    <div class="quick-stat-label">Transaksi</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-value" id="total-mitra-quick">89</div>
+                    <div class="quick-stat-label">Mitra Aktif</div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h3>Selamat Datang di Dashboard PUMK</h3>
+                    <p>Monitoring real-time data pembiayaan dan perkembangan mitra binaan PT Pos Indonesia</p>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <!-- Card 1: Sektor Ekonomi -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-chart-pie"></i>
+                            SEKTOR EKONOMI PUMK
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" onclick="refreshChart('sektor')">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button class="card-btn" onclick="exportChart('sektor')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="sektorChart"></canvas>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Total Distribusi</span>
+                            <span class="progress-value">100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Kualitas Pembiayaan -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-star"></i>
+                            KUALITAS PEMBIAYAAN
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" onclick="refreshChart('kualitas')">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <button class="card-btn" onclick="showDetailModal('kualitas')">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="kualitasChart"></canvas>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Rasio Kesehatan</span>
+                            <span class="progress-value" id="kesehatan-ratio">78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="kesehatan-bar" style="width: 78%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Real-time Monitoring -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-broadcast-tower"></i>
+                            REAL-TIME MONITORING
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" id="toggle-stream" onclick="toggleDataStream()">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="data-stream-container" style="height: 250px; overflow-y: auto; margin-bottom: 20px;">
+                        <!-- Data stream akan dimuat di sini -->
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-header">
+                            <span class="progress-label">Uptime System</span>
+                            <span class="progress-value">99.8%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 99.8%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Alert & Notifikasi -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-bell"></i>
+                            ALERT & NOTIFIKASI
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" onclick="markAllAsRead()">
+                                <i class="fas fa-check-double"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="alert-container" style="height: 250px; overflow-y: auto;">
+                        <!-- Alert akan dimuat di sini -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Charts -->
+            <div class="dashboard-stats">
+                <!-- Performance Chart -->
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-chart-bar"></i>
+                            PERFORMANCE TREND 2024
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-btn" onclick="toggleChartType()">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities Table -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-history"></i>
+                        AKTIVITAS TERBARU
+                    </div>
+                    <button class="card-btn" onclick="loadMoreActivities()">
+                        <i class="fas fa-sync"></i>
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Waktu</th>
+                            <th>Aktivitas</th>
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activity-table">
+                        <!-- Data akan dimuat via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal-overlay" id="notification-modal">
+        <div class="modal">
+            <button class="close-modal" onclick="closeModal('notification-modal')">&times;</button>
+            <h3 style="color: var(--pos-gold); margin-bottom: 20px;">Notifikasi Sistem</h3>
+            <div id="notification-list">
+                <!-- Notifikasi akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal">
+            <button class="close-modal" onclick="closeModal('detail-modal')">&times;</button>
+            <div id="modal-content">
+                <!-- Konten modal akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio for notifications -->
+    <audio id="notification-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let sektorData = {
+            labels: ['Industri', 'Perdagangan', 'Pertanian', 'Jasa', 'Lainnya'],
+            values: [15, 5, 10, 55, 15],
+            colors: ['#E11B22', '#FF6B6B', '#4ECDC4', '#FFD166', '#118AB2']
+        };
+
+        let kualitasData = {
+            labels: ['Lancar', 'Kurang Lancar', 'Macet'],
+            values: [8, 12, 5],
+            colors: ['#00C853', '#FFB300', '#FF5252']
+        };
+
+        let performanceData = {
+            months: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            data: [65, 59, 80, 81, 56, 55, 40, 70, 85, 90, 75, 88]
+        };
+
+        let chartInstances = {};
+        let dataStreamInterval;
+        let isStreaming = true;
+        let notifications = [];
+        let activities = [];
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            initDataStream();
+            initNotifications();
+            initActivities();
+            updateTime();
+            loadAlerts();
+            
+            // Update time every second
+            setInterval(updateTime, 1000);
+            
+            // Auto-refresh data every 30 seconds
+            setInterval(refreshAllData, 30000);
+            
+            // Simulate incoming alerts
+            setInterval(simulateNewAlert, 60000);
+            
+            // Add welcome notification
+            showNotification('🎉 Dashboard PUMK berhasil dimuat!', 'success');
+        });
+
+        // ==================== CHART FUNCTIONS ====================
+        function initCharts() {
+            // Sektor Ekonomi Chart (Doughnut with gradient)
+            const sektorCtx = document.getElementById('sektorChart').getContext('2d');
+            
+            // Create gradient colors
+            const gradients = sektorData.colors.map(color => {
+                const gradient = sektorCtx.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, color);
+                gradient.addColorStop(1, darkenColor(color, 40));
+                return gradient;
+            });
+
+            chartInstances.sektor = new Chart(sektorCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: sektorData.labels,
+                    datasets: [{
+                        data: sektorData.values,
+                        backgroundColor: gradients,
+                        borderWidth: 0,
+                        hoverOffset: 20,
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#A0AEC0',
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 10, 26, 0.9)',
+                            titleColor: '#FFD700',
+                            bodyColor: '#FFFFFF',
+                            borderColor: '#E11B22',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} unit (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: true,
+                        animateScale: true,
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+
+            // Kualitas Pembiayaan Chart (Bar)
+            const kualitasCtx = document.getElementById('kualitasChart').getContext('2d');
+            
+            chartInstances.kualitas = new Chart(kualitasCtx, {
+                type: 'bar',
+                data: {
+                    labels: kualitasData.labels,
+                    datasets: [{
+                        data: kualitasData.values,
+                        backgroundColor: kualitasData.colors,
+                        borderRadius: 15,
+                        borderWidth: 0,
+                        maxBarThickness: 40
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0',
+                                callback: function(value) {
+                                    return value + ' mitra';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#FFFFFF',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 10, 26, 0.9)',
+                            titleColor: '#FFD700',
+                            bodyColor: '#FFFFFF'
+                        }
+                    }
+                }
+            });
+
+            // Performance Chart (Line)
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            
+            // Create gradient for line
+            const gradient = performanceCtx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(225, 27, 34, 0.6)');
+            gradient.addColorStop(1, 'rgba(225, 27, 34, 0.1)');
+
+            chartInstances.performance = new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: performanceData.months,
+                    datasets: [{
+                        label: 'Performance Index',
+                        data: performanceData.data,
+                        backgroundColor: gradient,
+                        borderColor: '#E11B22',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#FFD700',
+                        pointBorderColor: '#FFFFFF',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#A0AEC0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#FFFFFF',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ==================== DATA STREAM FUNCTIONS ====================
+        function initDataStream() {
+            const streamContainer = document.getElementById('data-stream-container');
+            
+            const initialMessages = [
+                '🔄 Sistem monitoring aktif',
+                '📊 Memuat data real-time...',
+                '✅ Koneksi database stabil',
+                '🔒 Keamanan sistem terverifikasi'
+            ];
+            
+            initialMessages.forEach((msg, i) => {
+                setTimeout(() => {
+                    addDataStreamMessage(msg);
+                }, i * 1000);
+            });
+            
+            dataStreamInterval = setInterval(() => {
+                if (isStreaming) {
+                    const messages = [
+                        `📈 Update: Pertumbuhan mitra +${Math.floor(Math.random() * 3)} unit`,
+                        `💰 Transaksi baru: Rp ${Math.floor(Math.random() * 50 + 10)} juta`,
+                        `✅ Angsuran diterima dari ${Math.floor(Math.random() * 5 + 1)} mitra`,
+                        `📋 Laporan bulanan siap diunduh`,
+                        `🔔 Notifikasi: ${Math.floor(Math.random() * 3)} alert baru`
+                    ];
+                    
+                    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+                    addDataStreamMessage(randomMsg);
+                }
+            }, 5000);
+        }
+
+        function addDataStreamMessage(message) {
+            const streamContainer = document.getElementById('data-stream-container');
+            const messageElement = document.createElement('div');
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            messageElement.innerHTML = `
+                <div style="
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 10px 15px;
+                    margin: 8px 0;
+                    border-radius: 10px;
+                    border-left: 3px solid #E11B22;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    animation: fadeIn 0.3s;
+                ">
+                    <span>${message}</span>
+                    <span style="color: #A0AEC0; font-size: 12px;">${timeString}</span>
+                </div>
+            `;
+            
+            streamContainer.appendChild(messageElement);
+            streamContainer.scrollTop = streamContainer.scrollHeight;
+            
+            // Limit to 10 messages
+            if (streamContainer.children.length > 10) {
+                streamContainer.removeChild(streamContainer.children[0]);
+            }
+        }
+
+        function toggleDataStream() {
+            isStreaming = !isStreaming;
+            const toggleBtn = document.getElementById('toggle-stream');
+            
+            if (isStreaming) {
+                toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                addDataStreamMessage('▶️ Stream data dilanjutkan');
+                showNotification('Data stream aktif kembali', 'info');
+            } else {
+                toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                addDataStreamMessage('⏸️ Stream data dijeda');
+                showNotification('Data stream dijeda', 'warning');
+            }
+        }
+
+        // ==================== NOTIFICATION FUNCTIONS ====================
+        function initNotifications() {
+            notifications = [
+                {
+                    id: 1,
+                    title: 'Sistem dimuat',
+                    message: 'Dashboard PUMK berhasil dimuat',
+                    time: 'Just now',
+                    type: 'success',
+                    read: false
+                },
+                {
+                    id: 2,
+                    title: 'Data baru tersedia',
+                    message: 'Update data mitra bulan Oktober',
+                    time: '10 menit lalu',
+                    type: 'info',
+                    read: false
+                },
+                {
+                    id: 3,
+                    title: 'Peringatan',
+                    message: '3 angsuran belum diterima',
+                    time: '1 jam lalu',
+                    type: 'warning',
+                    read: false
+                }
+            ];
+            
+            updateNotificationCount();
+            loadNotificationList();
+        }
+
+        function showNotification(message, type = 'info') {
+            // Play sound
+            document.getElementById('notification-sound').play();
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification-toast';
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'rgba(0, 200, 83, 0.9)' : 
+                           type === 'warning' ? 'rgba(255, 179, 0, 0.9)' : 
+                           type === 'danger' ? 'rgba(255, 82, 82, 0.9)' : 
+                           'rgba(225, 27, 34, 0.9)'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                z-index: 1000;
+                animation: slideInRight 0.3s, fadeOut 0.3s 4.7s;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                max-width: 400px;
+            `;
+            
+            const icon = type === 'success' ? '✅' :
+                        type === 'warning' ? '⚠️' :
+                        type === 'danger' ? '❌' : 'ℹ️';
+            
+            notification.innerHTML = `
+                <div style="font-size: 20px;">${icon}</div>
+                <div>
+                    <div style="font-weight: 600;">Notifikasi Sistem</div>
+                    <div>${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+            
+            // Add to notifications list
+            const newNotification = {
+                id: notifications.length + 1,
+                title: 'Notifikasi Sistem',
+                message: message,
+                time: 'Baru saja',
+                type: type,
+                read: false
+            };
+            
+            notifications.unshift(newNotification);
+            updateNotificationCount();
+            loadNotificationList();
+        }
+
+        function showNotifications() {
+            const modal = document.getElementById('notification-modal');
+            modal.style.display = 'flex';
+            loadNotificationList();
+        }
+
+        function loadNotificationList() {
+            const container = document.getElementById('notification-list');
+            container.innerHTML = '';
+            
+            notifications.forEach(notif => {
+                const notifElement = document.createElement('div');
+                notifElement.style.cssText = `
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 15px;
+                    margin: 10px 0;
+                    border-radius: 10px;
+                    border-left: 3px solid ${notif.type === 'success' ? '#00C853' : 
+                                        notif.type === 'warning' ? '#FFB300' : 
+                                        notif.type === 'danger' ? '#FF5252' : '#E11B22'};
+                    ${!notif.read ? 'border-left-width: 5px;' : ''}
+                `;
+                
+                notifElement.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <strong style="color: ${notif.type === 'success' ? '#00C853' : 
+                                       notif.type === 'warning' ? '#FFB300' : 
+                                       notif.type === 'danger' ? '#FF5252' : '#E11B22'}">
+                            ${notif.title}
+                        </strong>
+                        <span style="color: #A0AEC0; font-size: 12px;">${notif.time}</span>
+                    </div>
+                    <div>${notif.message}</div>
+                `;
+                
+                container.appendChild(notifElement);
+            });
+        }
+
+        function updateNotificationCount() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            document.getElementById('notification-count').textContent = unreadCount;
+        }
+
+        function markAllAsRead() {
+            notifications.forEach(n => n.read = true);
+            updateNotificationCount();
+            loadNotificationList();
+            showNotification('Semua notifikasi ditandai sebagai sudah dibaca', 'success');
+        }
+
+        // ==================== ALERT FUNCTIONS ====================
+        function loadAlerts() {
+            const alerts = [
+                { type: 'warning', message: 'Pembiayaan mitra BRI-045 akan jatuh tempo', time: '2 hari' },
+                { type: 'danger', message: 'Angsuran mitra POS-012 terlambat 7 hari', time: '1 minggu' },
+                { type: 'info', message: 'Laporan triwulan perlu verifikasi', time: '3 hari' },
+                { type: 'warning', message: 'Kinerja sektor perdagangan menurun', time: '5 hari' },
+                { type: 'success', message: 'Semua sistem berjalan normal', time: 'Hari ini' }
+            ];
+            
+            const container = document.getElementById('alert-container');
+            container.innerHTML = '';
+            
+            alerts.forEach(alert => {
+                const alertElement = document.createElement('div');
+                alertElement.style.cssText = `
+                    background: ${alert.type === 'success' ? 'rgba(0, 200, 83, 0.1)' : 
+                                alert.type === 'warning' ? 'rgba(255, 179, 0, 0.1)' : 
+                                alert.type === 'danger' ? 'rgba(255, 82, 82, 0.1)' : 
+                                'rgba(225, 27, 34, 0.1)'};
+                    padding: 12px 15px;
+                    margin: 8px 0;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    border-left: 4px solid ${alert.type === 'success' ? '#00C853' : 
+                                        alert.type === 'warning' ? '#FFB300' : 
+                                        alert.type === 'danger' ? '#FF5252' : '#E11B22'};
+                `;
+                
+                const icon = alert.type === 'success' ? '✅' :
+                            alert.type === 'warning' ? '⚠️' :
+                            alert.type === 'danger' ? '❌' : 'ℹ️';
+                
+                alertElement.innerHTML = `
+                    <div style="font-size: 18px;">${icon}</div>
+                    <div style="flex: 1;">
+                        <div>${alert.message}</div>
+                        <div style="color: #A0AEC0; font-size: 12px; margin-top: 5px;">
+                            ${alert.time} lagi
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(alertElement);
+            });
+            
+            document.getElementById('alert-count').textContent = alerts.length;
+        }
+
+        function simulateNewAlert() {
+            const alertTypes = ['warning', 'danger', 'info'];
+            const messages = [
+                'Terdeteksi penurunan performa mitra',
+                'Transaksi mencurigakan terdeteksi',
+                'Backup data otomatis berhasil',
+                'Update sistem tersedia',
+                'Peningkatan traffic server'
+            ];
+            
+            const randomType = alertTypes[Math.floor(Math.random() * alertTypes.length)];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            showNotification(`Alert baru: ${randomMessage}`, randomType);
+            
+            // Refresh alert list
+            loadAlerts();
+        }
+
+        // ==================== ACTIVITY FUNCTIONS ====================
+        function initActivities() {
+            activities = [
+                { time: '10:30', activity: 'Update data mitra BRI', user: 'Admin', status: 'success' },
+                { time: '09:45', activity: 'Generate laporan bulanan', user: 'System', status: 'success' },
+                { time: '09:15', activity: 'Verifikasi pembiayaan', user: 'Manager', status: 'pending' },
+                { time: '08:30', activity: 'Import data transaksi', user: 'Admin', status: 'success' },
+                { time: '08:00', activity: 'Backup database', user: 'System', status: 'success' }
+            ];
+            
+            loadActivityTable();
+        }
+
+        function loadActivityTable() {
+            const tableBody = document.getElementById('activity-table');
+            tableBody.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td style="color: #A0AEC0;">${activity.time}</td>
+                    <td>${activity.activity}</td>
+                    <td>
+                        <span style="background: rgba(225, 27, 34, 0.1); padding: 4px 10px; border-radius: 15px;">
+                            ${activity.user}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${activity.status === 'success' ? 'status-active' : 'status-pending'}">
+                            ${activity.status === 'success' ? 'Selesai' : 'Proses'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="card-btn" style="width: 30px; height: 30px;" onclick="viewActivityDetail('${activity.activity}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        function loadMoreActivities() {
+            // Simulate loading more activities
+            const newActivities = [
+                { time: '07:45', activity: 'Sinkronisasi data cloud', user: 'System', status: 'success' },
+                { time: '07:30', activity: 'Check sistem keamanan', user: 'Admin', status: 'success' }
+            ];
+            
+            activities.push(...newActivities);
+            loadActivityTable();
+            showNotification('Aktivitas terbaru dimuat', 'info');
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function updateTime() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const timeString = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            
+            document.getElementById('current-time').textContent = 
+                `${dateString} ${timeString}`;
+        }
+
+        function refreshChart(chartName) {
+            if (chartName === 'sektor') {
+                // Update sektor data
+                sektorData.values = sektorData.values.map(value => {
+                    const change = Math.floor(Math.random() * 6) - 2;
+                    return Math.max(3, value + change);
+                });
+                
+                chartInstances.sektor.data.datasets[0].data = sektorData.values;
+                chartInstances.sektor.update();
+                
+                // Animate values
+                sektorData.values.forEach((value, index) => {
+                    const element = document.getElementById(`${sektorData.labels[index].toLowerCase()}-value`);
+                    if (element) {
+                        animateValue(element, value);
+                    }
+                });
+                
+                showNotification('Chart sektor ekonomi diperbarui', 'success');
+                
+            } else if (chartName === 'kualitas') {
+                // Update kualitas data
+                kualitasData.values = kualitasData.values.map(value => {
+                    const change = Math.floor(Math.random() * 3) - 1;
+                    return Math.max(1, value + change);
+                });
+                
+                chartInstances.kualitas.data.datasets[0].data = kualitasData.values;
+                chartInstances.kualitas.update();
+                
+                // Update health ratio
+                const total = kualitasData.values.reduce((a, b) => a + b, 0);
+                const lancarRatio = Math.round((kualitasData.values[0] / total) * 100);
+                
+                document.getElementById('kesehatan-ratio').textContent = `${lancarRatio}%`;
+                document.getElementById('kesehatan-bar').style.width = `${lancarRatio}%`;
+                
+                showNotification('Chart kualitas pembiayaan diperbarui', 'success');
+            }
+        }
+
+        function refreshAllData() {
+            refreshChart('sektor');
+            refreshChart('kualitas');
+            
+            // Update quick stats
+            const totalTransaksi = Math.floor(Math.random() * 100) + 1200;
+            const totalMitra = Math.floor(Math.random() * 20) + 80;
+            
+            document.getElementById('total-transaksi').textContent = 
+                totalTransaksi.toLocaleString();
+            document.getElementById('total-mitra-quick').textContent = totalMitra;
+            
+            addDataStreamMessage('🔄 Data otomatis diperbarui');
+        }
+
+        function animateValue(element, newValue) {
+            const oldValue = parseInt(element.textContent);
+            const duration = 500;
+            const step = (newValue - oldValue) / (duration / 16);
+            let current = oldValue;
+            const timer = setInterval(() => {
+                current += step;
+                element.textContent = Math.round(current);
+                if ((step > 0 && current >= newValue) || (step < 0 && current <= newValue)) {
+                    element.textContent = newValue;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        function setActiveTab(tabName) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            event.currentTarget.classList.add('active');
+            
+            // Show corresponding content
+            showNotification(`Membuka: ${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`, 'info');
+        }
+
+        function showDetailModal(type) {
+            const modal = document.getElementById('detail-modal');
+            const content = document.getElementById('modal-content');
+            
+            if (type === 'kualitas') {
+                const total = kualitasData.values.reduce((a, b) => a + b, 0);
+                const lancarPct = Math.round((kualitasData.values[0] / total) * 100);
+                const kurangPct = Math.round((kualitasData.values[1] / total) * 100);
+                const macetPct = Math.round((kualitasData.values[2] / total) * 100);
+                
+                content.innerHTML = `
+                    <h3 style="color: #FFD700; margin-bottom: 20px;">Detail Kualitas Pembiayaan</h3>
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Total Mitra:</span>
+                            <strong>${total} mitra</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span>Rasio Kesehatan:</span>
+                            <strong style="color: #00C853;">${lancarPct}%</strong>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 15px;">
+                        <h4 style="margin-bottom: 15px; color: #FFD700;">Distribusi Detail:</h4>
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Lancar (${kualitasData.values[0]} mitra)</span>
+                                <span>${lancarPct}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${lancarPct}%; background: #00C853;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Kurang Lancar (${kualitasData.values[1]} mitra)</span>
+                                <span>${kurangPct}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${kurangPct}%; background: #FFB300;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <span>Macet (${kualitasData.values[2]} mitra)</span>
+                                <span>${macetPct}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${macetPct}%; background: #FF5252;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function exportChart(chartName) {
+            showNotification(`Mengekspor chart ${chartName}...`, 'info');
+            
+            // Simulate export process
+            setTimeout(() => {
+                showNotification(`Chart ${chartName} berhasil diekspor ke PDF`, 'success');
+            }, 1000);
+        }
+
+        function toggleChartType() {
+            const chart = chartInstances.performance;
+            
+            if (chart.config.type === 'line') {
+                chart.config.type = 'bar';
+                chart.options.scales.y.beginAtZero = true;
+            } else {
+                chart.config.type = 'line';
+                chart.options.scales.y.beginAtZero = true;
+            }
+            
+            chart.update();
+            showNotification(`Tipe chart diubah ke ${chart.config.type}`, 'info');
+        }
+
+        function viewActivityDetail(activity) {
+            showNotification(`Melihat detail: ${activity}`, 'info');
+        }
+
+        function darkenColor(color, percent) {
+            const num = parseInt(color.slice(1), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) - amt;
+            const G = (num >> 8 & 0x00FF) - amt;
+            const B = (num & 0x0000FF) - amt;
+            
+            return `#${(
+                0x1000000 +
+                (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 +
+                (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 +
+                (B < 255 ? (B < 1 ? 0 : B) : 255)
+            ).toString(16).slice(1)}`;
+        }
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
